@@ -513,16 +513,27 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <button
                 onClick={() => window.print()}
-                className="px-5 py-2.5 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 text-xs font-bold text-[#071A3D] flex items-center gap-2 shadow-sm"
+                className="px-5 py-2.5 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 text-xs font-bold text-[#071A3D] flex items-center gap-2 shadow-xs transition-colors"
               >
                 <Printer className="w-4 h-4" />
                 <span>Print Ticket</span>
               </button>
+              <a
+                href={`https://wa.me/966502674930?text=${encodeURIComponent(
+                  `Assalam u Alaikum Muhammad Aamir Aziz (T4 Tickets),\nI have generated my flight reservation:\n• PNR Reference: ${pnrCode}\n• Passenger: ${passengerName}\n• Flight: ${selectedFlight.flightNumber} (${selectedFlight.airline})\n• Route: ${selectedFlight.from.city} (${selectedFlight.from.code}) ➔ ${selectedFlight.to.city} (${selectedFlight.to.code})\n• Fare: ${formatCurrency(selectedFlight.priceUSD, currency)}\nPlease confirm my official PDF e-ticket issuance.`
+                )}`}
+                target="_blank"
+                rel="noreferrer"
+                className="px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-bold flex items-center gap-2 shadow-md shadow-[#25D366]/20 transition-all"
+              >
+                <MessageSquare className="w-4 h-4 fill-current" />
+                <span>Receive via WhatsApp</span>
+              </a>
               <button
                 onClick={onClose}
-                className="px-6 py-2.5 rounded-xl bg-[#071A3D] hover:bg-[#0D2C63] text-xs font-bold text-white shadow-sm"
+                className="px-6 py-2.5 rounded-xl bg-[#071A3D] hover:bg-[#0D2C63] text-xs font-bold text-white shadow-xs transition-colors"
               >
-                Done & Return to Site
+                Done &amp; Return to Site
               </button>
             </div>
           </div>

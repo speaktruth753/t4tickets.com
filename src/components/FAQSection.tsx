@@ -228,7 +228,7 @@ export const FAQSection: React.FC = () => {
               <HelpCircle className="w-10 h-10 text-gray-400 mx-auto mb-2" />
               <p className="text-sm font-bold text-gray-700">No matching answers found</p>
               <p className="text-xs text-gray-500 mt-1">
-                Have a specific question? Ask our AI Travel Assistant or chat directly on WhatsApp.
+                Have a specific question? Chat directly with our travel experts on WhatsApp.
               </p>
               <a
                 href="https://wa.me/966502674930?text=Hello%20Muhammad%20Aamir%20Aziz,%20I%20have%20a%20question"

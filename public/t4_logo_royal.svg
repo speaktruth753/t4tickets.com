@@ -1,0 +1,294 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <!-- 3D Realistic Lighting & Occlusion Filters -->
+    <filter id="render3DShadowSapphire" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#000000" flood-opacity="0.85" />
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#010717" flood-opacity="0.6" />
+    </filter>
+
+    <filter id="plane3DShadowSapphire" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="6" dy="14" stdDeviation="8" flood-color="#010717" flood-opacity="0.9" />
+    </filter>
+
+    <filter id="text3DShadowSapphire" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="3" dy="8" stdDeviation="5" flood-color="#000000" flood-opacity="0.9" />
+    </filter>
+
+    <filter id="hyperGlowSapphire" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- 3D Bevel Gradients (Sapphire & Platinum Titanium) -->
+    <linearGradient id="bezelOuter3DSapphire" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="12%" stop-color="#E0F2FE" />
+      <stop offset="30%" stop-color="#7DD3FC" />
+      <stop offset="52%" stop-color="#0284C7" />
+      <stop offset="78%" stop-color="#0369A1" />
+      <stop offset="92%" stop-color="#075985" />
+      <stop offset="100%" stop-color="#082F49" />
+    </linearGradient>
+
+    <!-- Reverse Bevel for 3D Inset Ring -->
+    <linearGradient id="bezelInner3DSapphire" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#082F49" />
+      <stop offset="25%" stop-color="#0369A1" />
+      <stop offset="55%" stop-color="#38BDF8" />
+      <stop offset="82%" stop-color="#BAE6FD" />
+      <stop offset="100%" stop-color="#FFFFFF" />
+    </linearGradient>
+
+    <!-- Anisotropic Brushed Chrono Dial -->
+    <radialGradient id="dialBase3DSapphire" cx="38%" cy="32%" r="68%">
+      <stop offset="0%" stop-color="#0C2D6B" />
+      <stop offset="35%" stop-color="#081E48" />
+      <stop offset="70%" stop-color="#030E26" />
+      <stop offset="100%" stop-color="#010512" />
+    </radialGradient>
+
+    <!-- Spherical 3D Dial Dome Reflection -->
+    <radialGradient id="domeReflectionSapphire" cx="32%" cy="28%" r="70%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.32" />
+      <stop offset="35%" stop-color="#7DD3FC" stop-opacity="0.10" />
+      <stop offset="65%" stop-color="#000000" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.75" />
+    </radialGradient>
+
+    <!-- 3D Jet Fuselage Shader -->
+    <linearGradient id="jetFuselage3DSapphire" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="20%" stop-color="#F0F9FF" />
+      <stop offset="45%" stop-color="#7DD3FC" />
+      <stop offset="70%" stop-color="#0284C7" />
+      <stop offset="90%" stop-color="#0369A1" />
+      <stop offset="100%" stop-color="#0C4A6E" />
+    </linearGradient>
+
+    <!-- 3D Wing Top Facet -->
+    <linearGradient id="wingFacetLitSapphire" x1="0%" y1="0%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="25%" stop-color="#BAE6FD" />
+      <stop offset="65%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#0284C7" />
+    </linearGradient>
+
+    <!-- 3D Wing Bottom Facet -->
+    <linearGradient id="wingFacetShadedSapphire" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0369A1" />
+      <stop offset="50%" stop-color="#075985" />
+      <stop offset="100%" stop-color="#082F49" />
+    </linearGradient>
+
+    <!-- 3D Monogram T4 Chrome Sapphire -->
+    <linearGradient id="chromeSapphire3DFace" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="15%" stop-color="#F0F9FF" />
+      <stop offset="35%" stop-color="#BAE6FD" />
+      <stop offset="48%" stop-color="#38BDF8" />
+      <stop offset="50%" stop-color="#0284C7" />
+      <stop offset="52%" stop-color="#FFFFFF" />
+      <stop offset="72%" stop-color="#7DD3FC" />
+      <stop offset="90%" stop-color="#0369A1" />
+      <stop offset="100%" stop-color="#0C4A6E" />
+    </linearGradient>
+
+    <!-- 3D Extruded Monogram Side Walls -->
+    <linearGradient id="extrusionSapphireWall" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0369A1" />
+      <stop offset="40%" stop-color="#075985" />
+      <stop offset="80%" stop-color="#082F49" />
+      <stop offset="100%" stop-color="#021424" />
+    </linearGradient>
+
+    <!-- 3D Orbit Ring Gradient -->
+    <linearGradient id="orbitRing3DSapphire" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="30%" stop-color="#38BDF8" />
+      <stop offset="55%" stop-color="#0284C7" />
+      <stop offset="80%" stop-color="#FCD34D" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#D97706" stop-opacity="0.2" />
+    </linearGradient>
+
+    <!-- Diamond Optical Flare -->
+    <radialGradient id="starOpticalFlareSapphire" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+      <stop offset="25%" stop-color="#BAE6FD" stop-opacity="0.9" />
+      <stop offset="55%" stop-color="#38BDF8" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#0284C7" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- ==================== 3D MEDALLION FOUNDATION ==================== -->
+  <g filter="url(#render3DShadowSapphire)">
+    <!-- 1. Outer 3D Chamfered Ring -->
+    <circle cx="200" cy="200" r="192" fill="url(#bezelOuter3DSapphire)" />
+    
+    <!-- 2. Knurled Chrono Rim -->
+    <circle cx="200" cy="200" r="187" fill="none" stroke="#082F49" stroke-width="2.5" />
+    <circle cx="200" cy="200" r="186" fill="none" stroke="url(#bezelOuter3DSapphire)" stroke-width="2.2" stroke-dasharray="3, 4.5" />
+
+    <!-- 3. Middle 3D Inward Bevel Ring -->
+    <circle cx="200" cy="200" r="177" fill="url(#bezelInner3DSapphire)" />
+
+    <!-- 4. Deep Recessed Coin Rim -->
+    <circle cx="200" cy="200" r="169" fill="url(#bezelOuter3DSapphire)" />
+    <circle cx="200" cy="200" r="164" fill="#041829" />
+
+    <!-- 5. Sunken Titanium Sapphire Dial -->
+    <circle cx="200" cy="200" r="162" fill="url(#dialBase3DSapphire)" />
+    <circle cx="200" cy="200" r="162" fill="url(#domeReflectionSapphire)" />
+
+    <!-- 6. 3D Spherical Latitude & Longitude Globe Grid -->
+    <g opacity="0.4" stroke="#7DD3FC" stroke-width="1.1" fill="none">
+      <ellipse cx="200" cy="200" rx="155" ry="52" stroke-dasharray="6, 4" />
+      <ellipse cx="200" cy="160" rx="142" ry="38" opacity="0.7" />
+      <ellipse cx="200" cy="240" rx="142" ry="38" opacity="0.7" />
+      <ellipse cx="200" cy="200" rx="55" ry="155" />
+      <ellipse cx="200" cy="200" rx="110" ry="155" opacity="0.7" />
+      <line x1="200" y1="45" x2="200" y2="355" stroke-width="1.4" opacity="0.8" />
+      <line x1="45" y1="200" x2="355" y2="200" stroke-width="1.4" opacity="0.8" />
+    </g>
+
+    <!-- 7. Compass Points -->
+    <g opacity="0.3">
+      <polygon points="200,60 205,185 200,195 195,185" fill="#BAE6FD" />
+      <polygon points="200,60 200,195 195,185" fill="#0369A1" />
+      <polygon points="200,340 205,215 200,205 195,215" fill="#0369A1" />
+      <polygon points="200,340 200,205 205,215" fill="#BAE6FD" />
+      <polygon points="60,200 185,195 195,200 185,205" fill="#BAE6FD" />
+      <polygon points="60,200 195,200 185,205" fill="#0369A1" />
+      <polygon points="340,200 215,195 205,200 215,205" fill="#0369A1" />
+      <polygon points="340,200 205,200 215,195" fill="#BAE6FD" />
+    </g>
+
+    <!-- 3D ORBIT RING BACK -->
+    <path d="M 55,235 C 45,150 140,85 270,95 C 335,100 370,130 365,165" 
+          fill="none" 
+          stroke="url(#orbitRing3DSapphire)" 
+          stroke-width="7" 
+          stroke-linecap="round" 
+          opacity="0.45" />
+
+    <!-- ==================== 3D MONOLITHIC MONOGRAM "T4" ==================== -->
+    <g filter="url(#text3DShadowSapphire)">
+      <!-- Extrusion Side Walls -->
+      <polygon points="85,100 195,100 203,110 93,110" fill="url(#extrusionSapphireWall)" />
+      <polygon points="195,100 195,130 203,140 203,110" fill="url(#extrusionSapphireWall)" />
+      <polygon points="160,130 160,250 168,262 168,140" fill="url(#extrusionSapphireWall)" />
+      <polygon points="120,250 160,250 168,262 128,262" fill="url(#extrusionSapphireWall)" />
+      <polygon points="120,130 120,250 128,262 128,140" fill="url(#extrusionSapphireWall)" opacity="0.7" />
+
+      <polygon points="230,100 175,205 183,217 238,110" fill="url(#extrusionSapphireWall)" />
+      <polygon points="175,205 230,205 238,217 183,217" fill="url(#extrusionSapphireWall)" />
+      <polygon points="265,205 295,205 303,217 273,217" fill="url(#extrusionSapphireWall)" />
+      <polygon points="265,100 265,250 273,262 273,110" fill="url(#extrusionSapphireWall)" />
+      <polygon points="230,250 265,250 273,262 238,262" fill="url(#extrusionSapphireWall)" />
+
+      <!-- Front Faces -->
+      <path d="M 85,100 L 195,100 L 195,130 L 160,130 L 160,250 L 120,250 L 120,130 L 85,130 Z" 
+            fill="url(#chromeSapphire3DFace)" 
+            stroke="#F0F9FF" 
+            stroke-width="1.8" 
+            stroke-linejoin="round" />
+
+      <path d="M 230,100 L 175,205 L 230,205 L 230,250 L 265,250 L 265,205 L 295,205 L 295,175 L 265,175 L 265,100 Z 
+               M 230,175 L 203,175 L 230,125 Z" 
+            fill="url(#chromeSapphire3DFace)" 
+            stroke="#F0F9FF" 
+            stroke-width="1.8" 
+            stroke-linejoin="round" />
+
+      <!-- Edge Ridge Highlights -->
+      <line x1="87" y1="102" x2="193" y2="102" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" />
+      <line x1="232" y1="102" x2="263" y2="102" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" />
+      <line x1="230" y1="102" x2="178" y2="203" stroke="#FFFFFF" stroke-width="2.0" stroke-linecap="round" opacity="0.85" />
+    </g>
+
+    <!-- 3D Orbit Ring Front -->
+    <path d="M 55,235 C 75,305 180,335 295,300 C 350,280 375,240 365,165" 
+          fill="none" 
+          stroke="url(#orbitRing3DSapphire)" 
+          stroke-width="7" 
+          stroke-linecap="round" 
+          filter="url(#hyperGlowSapphire)" />
+
+    <!-- ==================== 3D JET AIRLINER ==================== -->
+    <g transform="translate(265, 115) rotate(-35)" filter="url(#plane3DShadowSapphire)">
+      <ellipse cx="-45" cy="0" rx="24" ry="5" fill="#38BDF8" opacity="0.8" filter="url(#hyperGlowSapphire)" />
+      <ellipse cx="-35" cy="0" rx="14" ry="3" fill="#FFFFFF" />
+
+      <polygon points="0,0 -25,-60 -10,-60 12,0" fill="url(#wingFacetShadedSapphire)" />
+      <polygon points="0,0 -20,-58 -10,-60 15,0" fill="url(#wingFacetLitSapphire)" stroke="#FFFFFF" stroke-width="0.8" />
+      <polygon points="-25,-60 -20,-72 -17,-70 -10,-60" fill="url(#bezelOuter3DSapphire)" />
+
+      <polygon points="0,0 -25,60 -10,60 12,0" fill="url(#wingFacetLitSapphire)" stroke="#F0F9FF" stroke-width="0.8" />
+      <polygon points="-25,60 -20,72 -17,70 -10,60" fill="url(#bezelOuter3DSapphire)" />
+
+      <polygon points="-30,0 -42,-24 -35,-24 -24,0" fill="url(#wingFacetLitSapphire)" />
+      <polygon points="-30,0 -42,24 -35,24 -24,0" fill="url(#wingFacetLitSapphire)" />
+      <polygon points="-28,0 -45,0 -48,-18 -38,-18" fill="url(#bezelOuter3DSapphire)" stroke="#FFFFFF" stroke-width="0.7" />
+
+      <path d="M 38,0 Q 22,-8 -32,-7 Q -42,0 -42,0 Q -42,0 -32,7 Q 22,8 38,0 Z" 
+            fill="url(#jetFuselage3DSapphire)" 
+            stroke="#F0F9FF" 
+            stroke-width="1.2" />
+
+      <path d="M 22,-3 Q 28,-1 30,0 Q 28,1 22,3 Q 20,0 22,-3 Z" fill="#0369A1" stroke="#BAE6FD" stroke-width="0.6" />
+      <circle cx="37" cy="0" r="1.8" fill="#FFFFFF" />
+      <ellipse cx="-6" cy="-18" rx="7" ry="2.8" fill="url(#jetFuselage3DSapphire)" stroke="#FFF" stroke-width="0.5" />
+      <ellipse cx="-6" cy="18" rx="7" ry="2.8" fill="url(#jetFuselage3DSapphire)" stroke="#FFF" stroke-width="0.5" />
+    </g>
+
+    <!-- ==================== 3D CURVED RIBBON PEDESTAL ==================== -->
+    <g transform="translate(200, 318)" filter="url(#text3DShadowSapphire)">
+      <path d="M -135,-18 C -70,-28 70,-28 135,-18 C 145,-16 150,-10 148,4 C 145,18 138,24 125,22 C 65,12 -65,12 -125,22 C -138,24 -145,18 -148,4 C -150,-10 -145,-16 -135,-18 Z" 
+            fill="url(#bezelOuter3DSapphire)" 
+            stroke="#041E33" 
+            stroke-width="1.5" />
+
+      <path d="M -130,-14 C -68,-23 68,-23 130,-14 C 138,-13 142,-8 140,2 C 138,12 132,17 122,15 C 63,6 -63,6 -122,15 C -132,17 -138,12 -140,2 C -142,-8 -138,-13 -130,-14 Z" 
+            fill="#020E1E" 
+            stroke="url(#bezelOuter3DSapphire)" 
+            stroke-width="1.2" />
+
+      <text x="0" y="3" 
+            text-anchor="middle" 
+            font-family="'Montserrat', 'Arial Black', sans-serif" 
+            font-size="14" 
+            font-weight="900" 
+            letter-spacing="5" 
+            fill="url(#chromeSapphire3DFace)" 
+            stroke="#F0F9FF" 
+            stroke-width="0.4"
+            filter="url(#hyperGlowSapphire)">TICKETS</text>
+
+      <text x="0" y="14" 
+            text-anchor="middle" 
+            font-family="'Montserrat', sans-serif" 
+            font-size="6" 
+            font-weight="800" 
+            letter-spacing="3" 
+            fill="#7DD3FC">TRAVEL SERVICES</text>
+    </g>
+
+    <!-- OPTICAL FLARES -->
+    <g transform="translate(85, 100)" filter="url(#hyperGlowSapphire)">
+      <circle cx="0" cy="0" r="16" fill="url(#starOpticalFlareSapphire)" />
+      <path d="M -16,0 L 16,0 M 0,-16 L 0,16" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" />
+      <circle cx="0" cy="0" r="3" fill="#FFFFFF" />
+    </g>
+
+    <g transform="translate(295, 175)" filter="url(#hyperGlowSapphire)">
+      <circle cx="0" cy="0" r="12" fill="url(#starOpticalFlareSapphire)" />
+      <path d="M -12,0 L 12,0 M 0,-12 L 0,12" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" />
+      <circle cx="0" cy="0" r="2.5" fill="#FFFFFF" />
+    </g>
+
+    <g transform="translate(295, 95)" filter="url(#hyperGlowSapphire)">
+      <circle cx="0" cy="0" r="10" fill="url(#starOpticalFlareSapphire)" />
+      <path d="M -8,0 L 8,0 M 0,-8 L 0,8" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" />
+      <circle cx="0" cy="0" r="2" fill="#FFFFFF" />
+    </g>
+  </g>
+</svg>

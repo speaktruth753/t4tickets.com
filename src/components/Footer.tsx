@@ -15,18 +15,19 @@ import {
 } from 'lucide-react';
 import { T4OfficialBanner } from './T4OfficialBanner';
 import { T4Logo, LogoColorTheme } from './T4Logo';
+import { WhatsAppIcon } from './WhatsAppIcon';
 
 interface FooterProps {
   onNavigate: (sectionId: string) => void;
   onOpenInquiry: (subject: string) => void;
-  onOpenAIAssistant?: () => void;
+  onOpenAssistant?: () => void;
   brandColor?: LogoColorTheme;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   onNavigate,
   onOpenInquiry,
-  onOpenAIAssistant,
+  onOpenAssistant,
   brandColor = 'red'
 }) => {
   const topBorderClass = brandColor === 'gold'
@@ -65,14 +66,35 @@ export const Footer: React.FC<FooterProps> = ({
 
               <div className="flex flex-col justify-center">
                 <span className="text-xl sm:text-2xl font-black font-heading tracking-tight text-white leading-tight">
-                  T4 <span className={brandColor === 'gold' ? 'text-[#F5D061]' : brandColor === 'royal' ? 'text-[#60A5FA]' : 'text-[#E53935]'}>TICKETS</span>
+                  T4{' '}
+                  <span
+                    className={
+                      brandColor === 'gold'
+                        ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#FFE082] via-[#F5D061] to-[#DFB15B]'
+                        : brandColor === 'royal'
+                        ? 'text-[#60A5FA]'
+                        : brandColor === 'emerald'
+                        ? 'text-[#4ADE80]'
+                        : 'text-[#E53935]'
+                    }
+                  >
+                    TICKETS
+                  </span>
                 </span>
                 <span className="text-[11px] text-gray-300 font-semibold tracking-wide uppercase">
                   AND TRAVELS SERVICES
                 </span>
-                <span className={`text-xs font-serif mt-0.5 ${
-                  brandColor === 'gold' ? 'text-[#F5D061]' : brandColor === 'royal' ? 'text-blue-300' : 'text-[#FF8080]'
-                }`}>
+                <span
+                  className={`text-xs font-serif mt-0.5 ${
+                    brandColor === 'gold'
+                      ? 'text-[#F5D061]'
+                      : brandColor === 'royal'
+                      ? 'text-blue-300'
+                      : brandColor === 'emerald'
+                      ? 'text-[#86EFAC]'
+                      : 'text-[#FF8080]'
+                  }`}
+                >
                   محمد عامر عزیز • سستی ترین ٹکٹ ، بہترین سروس
                 </span>
               </div>
@@ -86,14 +108,20 @@ export const Footer: React.FC<FooterProps> = ({
             <div
               id="t4tickets-logo-spec-placeholder"
               className={`p-3 rounded-xl bg-white/5 border ${
-                brandColor === 'gold' ? 'border-[#C29427]/30' : brandColor === 'royal' ? 'border-blue-500/30' : 'border-[#E53935]/30'
+                brandColor === 'gold'
+                  ? 'border-[#C29427]/30'
+                  : brandColor === 'royal'
+                  ? 'border-blue-500/30'
+                  : brandColor === 'emerald'
+                  ? 'border-emerald-500/30'
+                  : 'border-[#E53935]/30'
               } flex items-center justify-between gap-3 text-xs max-w-sm`}
             >
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-[#16A34A] animate-pulse shrink-0" />
                 <div className="text-[11px] text-gray-300">
-                  <span className="font-bold text-white block">Official Company Emblem</span>
-                  <span className="text-[10px] text-gray-400">T4 TICKETS • Registered Trademark</span>
+                  <span className="font-bold text-white block">Official 3D Company Emblem</span>
+                  <span className="text-[10px] text-gray-400">T4 TICKETS • 3D Rendered Luxury Edition</span>
                 </div>
               </div>
               <span className={`px-2 py-0.5 rounded ${
@@ -101,20 +129,22 @@ export const Footer: React.FC<FooterProps> = ({
                   ? 'bg-[#C29427]/20 text-[#F5D061] border border-[#C29427]/40'
                   : brandColor === 'royal'
                   ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
+                  : brandColor === 'emerald'
+                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
                   : 'bg-[#E53935]/20 text-[#FF6B6B] border border-[#E53935]/40'
               } text-[10px] font-bold shrink-0`}>
-                100% Genuine
+                3D Gold Edition
               </span>
             </div>
 
-            {/* AI Assistant Callout */}
-            {onOpenAIAssistant && (
+            {/* Travel Assistant Button */}
+            {onOpenAssistant && (
               <button
-                onClick={onOpenAIAssistant}
-                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#B8860B] to-[#F7D070] text-[#051433] font-black text-xs shadow-md transition-all hover:scale-105"
+                onClick={() => onOpenAssistant()}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 text-xs font-medium transition-colors"
               >
-                <Bot className="w-4 h-4 text-[#051433]" />
-                <span>Launch T4 AI Travel Assistant</span>
+                <Bot className="w-3.5 h-3.5 text-[#F5D061]" />
+                <span>Travel Assistant</span>
               </button>
             )}
 
@@ -242,27 +272,27 @@ export const Footer: React.FC<FooterProps> = ({
 
               {/* Saudi Arabia WhatsApp */}
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
+                <WhatsAppIcon className="w-4 h-4 text-[#25D366] shrink-0 fill-current" />
                 <a
-                  href="https://wa.me/966502674930?text=Hello%20Muhammad%20Aamir%20Aziz%2C%20I%20want%20to%20book%20travel%20services"
+                  href="https://wa.me/966502674930?text=Assalam%20u%20Alaikum%20Muhammad%20Aamir%20Aziz%2C%20I%20want%20to%20book%20travel%20services"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-mono font-bold text-white hover:text-green-400 transition-colors"
+                  className="font-mono font-bold text-white hover:text-[#25D366] transition-colors"
                 >
-                  +966 50 267 4930 (KSA)
+                  +966 50 267 4930 (WhatsApp KSA)
                 </a>
               </div>
 
               {/* Pakistan WhatsApp */}
               <div className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-[#F5D061] shrink-0" />
+                <WhatsAppIcon className="w-4 h-4 text-[#25D366] shrink-0 fill-current" />
                 <a
-                  href="https://wa.me/923017355753?text=Hello%20T4%20Tickets%2C%20I%20want%20to%20inquire%20about%20flights"
+                  href="https://wa.me/923017355753?text=Assalam%20u%20Alaikum%20T4%20Tickets%2C%20I%20want%20to%20inquire%20about%20flights"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-mono font-bold text-white hover:text-green-400 transition-colors"
+                  className="font-mono font-bold text-white hover:text-[#25D366] transition-colors"
                 >
-                  +92 301 7355753 (PK)
+                  +92 301 7355753 (WhatsApp PK)
                 </a>
               </div>
 

@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="100%" height="100%">
+  <defs>
+    <!-- 3D Specular and Ambient Occlusion Filters -->
+    <filter id="emerald3DDepth" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#000000" flood-opacity="0.85" />
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+
+    <filter id="emeraldMonogramShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="3" dy="7" stdDeviation="4" flood-color="#011409" flood-opacity="0.9" />
+    </filter>
+
+    <filter id="emeraldSpecularGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- 3D Emerald & Gold Bevel Ring Gradients -->
+    <linearGradient id="emeraldBevelLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#DCFCE7" />
+      <stop offset="25%" stop-color="#86EFAC" />
+      <stop offset="50%" stop-color="#16A34A" />
+      <stop offset="75%" stop-color="#15803D" />
+      <stop offset="100%" stop-color="#052E16" />
+    </linearGradient>
+
+    <!-- Reverse Bevel for Inner Recess -->
+    <linearGradient id="emeraldBevelInner" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#052E16" />
+      <stop offset="35%" stop-color="#15803D" />
+      <stop offset="65%" stop-color="#4ADE80" />
+      <stop offset="85%" stop-color="#BBF7D0" />
+      <stop offset="100%" stop-color="#FFFFFF" />
+    </linearGradient>
+
+    <!-- Chrome Emerald & 24K Gold Monogram Top Surface -->
+    <linearGradient id="chromeEmeraldTop" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="20%" stop-color="#DCFCE7" />
+      <stop offset="48%" stop-color="#4ADE80" />
+      <stop offset="50%" stop-color="#16A34A" />
+      <stop offset="52%" stop-color="#F0FDF4" />
+      <stop offset="75%" stop-color="#15803D" />
+      <stop offset="90%" stop-color="#166534" />
+      <stop offset="100%" stop-color="#052E16" />
+    </linearGradient>
+
+    <!-- 3D Extrusion Side Gradient (Depth Shadows) -->
+    <linearGradient id="emeraldExtrusionSides" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#15803D" />
+      <stop offset="50%" stop-color="#166534" />
+      <stop offset="100%" stop-color="#052E16" />
+    </linearGradient>
+
+    <!-- Deep Luxury Royal Malachite/Forest Dial -->
+    <radialGradient id="emeraldDialRadial" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#0E3820" />
+      <stop offset="40%" stop-color="#082815" />
+      <stop offset="75%" stop-color="#04180C" />
+      <stop offset="100%" stop-color="#010A04" />
+    </radialGradient>
+
+    <!-- Sunray Dial Sheen -->
+    <linearGradient id="emeraldDialSheen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.14" />
+      <stop offset="40%" stop-color="#FFFFFF" stop-opacity="0.02" />
+      <stop offset="60%" stop-color="#000000" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.65" />
+    </linearGradient>
+
+    <!-- Star Glint Flare -->
+    <radialGradient id="emeraldGlintFlare" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+      <stop offset="35%" stop-color="#86EFAC" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#16A34A" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Base Ambient Drop Shadow -->
+  <g filter="url(#emerald3DDepth)">
+    <!-- Outer Chamfer Rim (3D Bevelled Base) -->
+    <circle cx="150" cy="150" r="142" fill="url(#emeraldBevelLight)" />
+    
+    <!-- Micro-grooved Chrono Bezel Notches -->
+    <circle cx="150" cy="150" r="139" fill="none" stroke="#052E16" stroke-width="2" opacity="0.6" />
+    <circle cx="150" cy="150" r="138" fill="none" stroke="url(#emeraldBevelLight)" stroke-width="1.5" stroke-dasharray="2, 6" />
+
+    <!-- High-Relief Middle Bevel Ring -->
+    <circle cx="150" cy="150" r="132" fill="url(#emeraldBevelInner)" />
+
+    <!-- Recessed Coin Step -->
+    <circle cx="150" cy="150" r="126" fill="url(#emeraldBevelLight)" />
+    <circle cx="150" cy="150" r="122" fill="#02140A" />
+
+    <!-- Recessed Sunburst Dial -->
+    <circle cx="150" cy="150" r="120" fill="url(#emeraldDialRadial)" />
+    <circle cx="150" cy="150" r="120" fill="url(#emeraldDialSheen)" />
+
+    <!-- Concentric Dial Gauge Rings -->
+    <circle cx="150" cy="150" r="114" fill="none" stroke="#4ADE80" stroke-width="0.8" opacity="0.4" stroke-dasharray="4, 4" />
+    <circle cx="150" cy="150" r="98" fill="none" stroke="#4ADE80" stroke-width="0.6" opacity="0.25" />
+
+    <!-- 3D Aeronautical Wings -->
+    <g filter="url(#emeraldSpecularGlow)">
+      <path d="M 45 160 C 70 185 105 205 145 208 C 120 196 95 180 75 162 Z" fill="url(#emeraldBevelLight)" opacity="0.85" />
+      <path d="M 55 174 C 80 198 115 214 148 217 C 126 208 102 194 82 176 Z" fill="url(#chromeEmeraldTop)" opacity="0.9" />
+      <path d="M 255 160 C 230 185 195 205 155 208 C 180 196 205 180 225 162 Z" fill="url(#emeraldBevelLight)" opacity="0.85" />
+      <path d="M 245 174 C 220 198 185 214 152 217 C 174 208 198 194 218 176 Z" fill="url(#chromeEmeraldTop)" opacity="0.9" />
+      <path d="M 150 200 L 140 215 L 150 228 L 160 215 Z" fill="url(#chromeEmeraldTop)" />
+    </g>
+
+    <!-- 3D Monogram Extrusion -->
+    <g filter="url(#emeraldMonogramShadow)">
+      <!-- T Extruded Under-facets -->
+      <path d="M 68 85 L 148 85 L 152 92 L 72 92 Z" fill="url(#emeraldExtrusionSides)" />
+      <path d="M 148 85 L 144 108 L 148 115 L 152 92 Z" fill="url(#emeraldExtrusionSides)" />
+      <path d="M 124 108 L 118 196 L 124 204 L 129 115 Z" fill="url(#emeraldExtrusionSides)" />
+      <path d="M 94 196 L 118 196 L 124 204 L 98 204 Z" fill="url(#emeraldExtrusionSides)" />
+      
+      <!-- 4 Extruded Under-facets -->
+      <path d="M 174 85 L 134 158 L 138 166 L 178 92 Z" fill="url(#emeraldExtrusionSides)" />
+      <path d="M 134 158 L 172 158 L 176 166 L 138 166 Z" fill="url(#emeraldExtrusionSides)" />
+      <path d="M 194 158 L 216 158 L 220 166 L 198 166 Z" fill="url(#emeraldExtrusionSides)" />
+      <path d="M 194 85 L 194 196 L 199 204 L 199 92 Z" fill="url(#emeraldExtrusionSides)" />
+      <path d="M 172 196 L 194 196 L 199 204 L 176 204 Z" fill="url(#emeraldExtrusionSides)" />
+
+      <!-- LAYER: 3D Embossed Monogram Front Faces -->
+      <path d="M 68 85 L 148 85 L 144 108 L 124 108 L 118 196 L 94 196 L 100 108 L 74 108 Z" 
+            fill="url(#chromeEmeraldTop)" 
+            stroke="#DCFCE7" 
+            stroke-width="1.2" 
+            stroke-linejoin="round" />
+
+      <path d="M 174 85 L 134 158 L 172 158 L 172 196 L 194 196 L 194 158 L 216 158 L 216 136 L 194 136 L 194 85 Z 
+               M 172 136 L 152 136 L 172 98 Z" 
+            fill="url(#chromeEmeraldTop)" 
+            stroke="#DCFCE7" 
+            stroke-width="1.2" 
+            stroke-linejoin="round" />
+    </g>
+
+    <!-- 3D Specular Chrome Ridge Highlight -->
+    <path d="M 70 87 L 146 87" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+    <path d="M 176 87 L 192 87" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+    <path d="M 173 87 L 136 156" stroke="#FFFFFF" stroke-width="1.8" opacity="0.7" />
+
+    <!-- 3D Curved Banner: TICKETS -->
+    <g transform="translate(150, 240)" filter="url(#emeraldSpecularGlow)">
+      <rect x="-85" y="-14" width="170" height="28" rx="14" fill="url(#emeraldBevelLight)" />
+      <rect x="-82" y="-11" width="164" height="22" rx="11" fill="#02140A" stroke="url(#emeraldBevelLight)" stroke-width="1" />
+      <text x="0" y="4" text-anchor="middle" font-family="'Montserrat', 'Arial Black', sans-serif" font-size="10.5" font-weight="900" letter-spacing="3.5" fill="url(#chromeEmeraldTop)">TICKETS</text>
+    </g>
+
+    <!-- Star Glints -->
+    <g transform="translate(68, 85)" filter="url(#emeraldSpecularGlow)">
+      <circle cx="0" cy="0" r="14" fill="url(#emeraldGlintFlare)" />
+      <path d="M -12 0 L 12 0 M 0 -12 L 0 12" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" />
+      <circle cx="0" cy="0" r="2.5" fill="#FFFFFF" />
+    </g>
+
+    <g transform="translate(216, 136)" filter="url(#emeraldSpecularGlow)">
+      <circle cx="0" cy="0" r="10" fill="url(#emeraldGlintFlare)" />
+      <path d="M -8 0 L 8 0 M 0 -8 L 0 8" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" />
+      <circle cx="0" cy="0" r="2" fill="#FFFFFF" />
+    </g>
+  </g>
+</svg>

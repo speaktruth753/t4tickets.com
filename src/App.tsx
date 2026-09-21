@@ -1,18 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
-import { FeaturedServices } from './components/FeaturedServices';
-import { ExclusiveDeals } from './components/ExclusiveDeals';
-import { UmrahPackages } from './components/UmrahPackages';
-import { WhyChooseUs } from './components/WhyChooseUs';
-import { FAQSection } from './components/FAQSection';
-import { Footer } from './components/Footer';
 import { LogoColorTheme } from './components/T4Logo';
-import { FlightSearchResultsModal } from './components/FlightSearchResultsModal';
-import { AuthModal } from './components/AuthModal';
-import { InquiryModal } from './components/InquiryModal';
-import { AITravelAssistantModal } from './components/AITravelAssistantModal';
-import { AISmartItineraryPlanner } from './components/AISmartItineraryPlanner';
+import { WhatsAppIcon } from './components/WhatsAppIcon';
+import { CheckCircle2 } from 'lucide-react';
+
+// Dynamic imports (Code-splitting for non-essential below-the-fold sections)
+const FeaturedServices = lazy(() =>
+  import('./components/FeaturedServices').then((m) => ({ default: m.FeaturedServices }))
+);
+const ExclusiveDeals = lazy(() =>
+  import('./components/ExclusiveDeals').then((m) => ({ default: m.ExclusiveDeals }))
+);
+const UmrahPackages = lazy(() =>
+  import('./components/UmrahPackages').then((m) => ({ default: m.UmrahPackages }))
+);
+const WhyChooseUs = lazy(() =>
+  import('./components/WhyChooseUs').then((m) => ({ default: m.WhyChooseUs }))
+);
+const FAQSection = lazy(() =>
+  import('./components/FAQSection').then((m) => ({ default: m.FAQSection }))
+);
+const Footer = lazy(() =>
+  import('./components/Footer').then((m) => ({ default: m.Footer }))
+);
+
+// Dynamic imports for heavy interactive modals (Only fetched on-demand)
+const FlightSearchResultsModal = lazy(() =>
+  import('./components/FlightSearchResultsModal').then((m) => ({
+    default: m.FlightSearchResultsModal
+  }))
+);
+const AuthModal = lazy(() =>
+  import('./components/AuthModal').then((m) => ({ default: m.AuthModal }))
+);
+const InquiryModal = lazy(() =>
+  import('./components/InquiryModal').then((m) => ({ default: m.InquiryModal }))
+);
+const SmartTravelAssistantModal = lazy(() =>
+  import('./components/SmartTravelAssistantModal').then((m) => ({
+    default: m.SmartTravelAssistantModal
+  }))
+);
 
 import {
   CurrencyCode,
@@ -23,13 +52,26 @@ import {
   UmrahPackage
 } from './types';
 import { AIRPORTS, MOCK_FLIGHT_RESULTS } from './data/travelData';
-import { CheckCircle2, Phone, MessageSquare, Bot, Sparkles, Wand2, ArrowUp } from 'lucide-react';
+
+// Lightweight skeleton placeholder for below-the-fold deferred sections
+const SectionSkeleton = () => (
+  <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="animate-pulse space-y-4">
+      <div className="h-6 bg-gray-200/80 rounded-md w-48 mx-auto" />
+      <div className="h-4 bg-gray-200/60 rounded-md w-72 mx-auto" />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+        <div className="h-48 bg-gray-200/50 rounded-2xl" />
+        <div className="h-48 bg-gray-200/50 rounded-2xl" />
+        <div className="h-48 bg-gray-200/50 rounded-2xl" />
+      </div>
+    </div>
+  </div>
+);
 
 export default function App() {
   const [currency, setCurrency] = useState<CurrencyCode>('SAR');
   const [language, setLanguage] = useState<LanguageCode>('EN');
-  const [brandColor, setBrandColor] = useState<LogoColorTheme>('red');
-  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [brandColor, setBrandColor] = useState<LogoColorTheme>('gold');
 
   // Modals state
   const [flightModalOpen, setFlightModalOpen] = useState(false);
@@ -38,9 +80,9 @@ export default function App() {
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
   const [inquirySubject, setInquirySubject] = useState('Flight & Travel Inquiry');
 
-  // AI Features state
-  const [aiAssistantOpen, setAiAssistantOpen] = useState(false);
-  const [aiPlannerOpen, setAiPlannerOpen] = useState(false);
+  // Unified Smart Travel Assistant state
+  const [assistantModalOpen, setAssistantModalOpen] = useState(false);
+  const [assistantInitialTab, setAssistantInitialTab] = useState<'chat' | 'planner'>('chat');
 
   // Logged-in user state
   const [userName, setUserName] = useState<string | null>(null);
@@ -67,18 +109,6 @@ export default function App() {
       setToastMessage(null);
     }, 4000);
   };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 300) {
-        setShowBackToTop(true);
-      } else {
-        setShowBackToTop(false);
-      }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleNavigate = (sectionId: string) => {
     const el = document.getElementById(sectionId);
@@ -226,24 +256,18 @@ export default function App() {
     setInquiryModalOpen(true);
   };
 
-  // Performance & UX: Back to top and ESC listener
+  // ESC key listener to close active modals
   useEffect(() => {
-    const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 400);
-    };
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setFlightModalOpen(false);
         setAuthModalOpen(false);
         setInquiryModalOpen(false);
-        setAiAssistantOpen(false);
-        setAiPlannerOpen(false);
+        setAssistantModalOpen(false);
       }
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
@@ -262,54 +286,6 @@ export default function App() {
         </div>
       )}
 
-      {/* Floating Action Buttons */}
-      {/* Floating WhatsApp Desk (Left) */}
-      <div className="fixed bottom-6 left-6 z-40">
-        <a
-          href="https://wa.me/966502674930?text=Hello%20Muhammad%20Aamir%20Aziz%20(T4Tickets),%20I%20want%20to%20inquire%20about%20booking"
-          target="_blank"
-          rel="noreferrer"
-          title="Direct WhatsApp Booking Desk"
-          className="flex items-center gap-2 bg-[#25D366] hover:bg-[#20ba59] text-white px-4 py-2.5 rounded-full shadow-xl shadow-green-600/30 hover:scale-105 transition-all text-xs font-bold"
-        >
-          <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-          <MessageSquare className="w-4 h-4 fill-current" />
-          <span className="hidden sm:inline">WhatsApp (+966 50 267 4930)</span>
-          <span className="sm:hidden">WhatsApp</span>
-        </a>
-      </div>
-
-      {/* Floating AI Travel Copilot (Right) */}
-      <div className="fixed bottom-6 right-6 z-40">
-        <button
-          onClick={() => setAiAssistantOpen(true)}
-          className="flex items-center gap-2 bg-gradient-to-r from-[#B8860B] via-[#E5BA54] to-[#F7D070] text-[#051433] px-4 py-2.5 rounded-full shadow-xl shadow-[#B8860B]/40 hover:scale-105 transition-all text-xs font-black border border-white/40 group"
-          title="Ask T4 AI Travel Advisor"
-        >
-          <div className="relative">
-            <Bot className="w-4 h-4 text-[#051433]" />
-            <span className="absolute -top-1 -right-1 flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-600" />
-            </span>
-          </div>
-          <span>T4 AI Advisor</span>
-          <Sparkles className="w-3.5 h-3.5 text-[#051433] group-hover:rotate-12 transition-transform" />
-        </button>
-      </div>
-
-      {/* Floating Back to Top Button */}
-      {showBackToTop && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-20 right-6 z-40 p-2.5 rounded-full bg-[#071A3D]/90 text-white hover:bg-[#E53935] shadow-xl border border-white/20 hover:scale-110 active:scale-95 transition-all duration-200 flex items-center justify-center group"
-          title="Scroll back to top"
-          aria-label="Scroll back to top"
-        >
-          <ArrowUp className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
-        </button>
-      )}
-
       {/* Header */}
       <Header
         currentCurrency={currency}
@@ -321,8 +297,10 @@ export default function App() {
         onOpenAuth={handleOpenAuth}
         onNavigate={handleNavigate}
         onOpenInquiry={handleOpenInquiry}
-        onOpenAIAssistant={() => setAiAssistantOpen(true)}
-        onOpenAIPlanner={() => setAiPlannerOpen(true)}
+        onOpenAssistant={(tab) => {
+          setAssistantInitialTab(tab || 'chat');
+          setAssistantModalOpen(true);
+        }}
       />
 
       {/* Main Content Sections - Fast, Light, and Clean */}
@@ -330,102 +308,99 @@ export default function App() {
         {/* HERO SECTION with Flight Search Engine & Instant Fast Routes */}
         <HeroSection onSearchFlights={handleSearchFlights} />
 
-        {/* FEATURED SERVICES SECTION (Core travel services: Airline tickets, Umrah, Visas, Wafid GCC Medical) */}
-        <FeaturedServices onServiceSelect={handleServiceSelect} />
+        {/* Deferred Below-The-Fold Sections Loaded via Code-Splitting */}
+        <Suspense fallback={<SectionSkeleton />}>
+          {/* FEATURED SERVICES SECTION (Core travel services: Airline tickets, Umrah, Visas, Wafid GCC Medical) */}
+          <FeaturedServices onServiceSelect={handleServiceSelect} />
 
-        {/* EXCLUSIVE DEALS SECTION (Curated top flight deals) */}
-        <ExclusiveDeals currency={currency} onBookDeal={handleBookDeal} />
+          {/* EXCLUSIVE DEALS SECTION (Curated top flight deals) */}
+          <ExclusiveDeals currency={currency} onBookDeal={handleBookDeal} />
 
-        {/* UMRAH & SPECIAL PACKAGES SECTION (VIP 5-Star packages) */}
-        <UmrahPackages currency={currency} onBookUmrah={handleBookUmrah} />
+          {/* UMRAH & SPECIAL PACKAGES SECTION (VIP 5-Star packages) */}
+          <UmrahPackages currency={currency} onBookUmrah={handleBookUmrah} />
 
-        {/* WHY CHOOSE US SECTION (Official IATA accreditation, best price guarantee) */}
-        <WhyChooseUs />
+          {/* WHY CHOOSE US SECTION (Official IATA accreditation, best price guarantee) */}
+          <WhyChooseUs />
 
-        {/* FAQ & SEARCH ENGINE KNOWLEDGE SECTION */}
-        <FAQSection />
+          {/* FAQ & SEARCH ENGINE KNOWLEDGE SECTION */}
+          <FAQSection />
+        </Suspense>
       </main>
 
       {/* FOOTER */}
-      <Footer
-        onNavigate={handleNavigate}
-        onOpenInquiry={handleOpenInquiry}
-        onOpenAIAssistant={() => setAiAssistantOpen(true)}
-        brandColor={brandColor}
-      />
+      <Suspense fallback={<div className="h-40 bg-[#071A3D]" />}>
+        <Footer
+          onNavigate={handleNavigate}
+          onOpenInquiry={handleOpenInquiry}
+          onOpenAssistant={() => {
+            setAssistantInitialTab('chat');
+            setAssistantModalOpen(true);
+          }}
+          brandColor={brandColor}
+        />
+      </Suspense>
 
-      {/* High-Converting Floating Customer Action Desk */}
-      <div className="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-2.5 pointer-events-auto">
-        {/* Back to Top */}
-        {showBackToTop && (
-          <button
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="w-10 h-10 rounded-full bg-[#071A3D] text-white shadow-lg border border-white/20 flex items-center justify-center hover:bg-[#E53935] hover:scale-110 active:scale-95 transition-all duration-200"
-            title="Back to Top"
-            aria-label="Back to Top"
-          >
-            <ArrowUp className="w-5 h-5" />
-          </button>
-        )}
-
-        {/* WhatsApp Executive Hotline Badge & Button */}
+      {/* Direct WhatsApp Contact - Only WhatsApp Icon */}
+      <div className="fixed bottom-6 right-6 z-50 pointer-events-auto">
         <a
-          href="https://wa.me/966502674930?text=Assalam%20u%20Alaikum%20Muhammad%20Aamir%20Aziz%2C%20I%20want%20to%20book%20a%20ticket%20or%20Umrah%20package."
+          id="floating-whatsapp-direct-btn"
+          href="https://wa.me/966502674930?text=Assalam%20u%20Alaikum%20Muhammad%20Aamir%20Aziz%2C%20I%20want%20to%20book%20a%20ticket%20or%20visa"
           target="_blank"
           rel="noreferrer"
-          className="group flex items-center gap-2.5 bg-[#25D366] hover:bg-[#20bd5a] text-white px-4 py-3 rounded-2xl shadow-xl shadow-[#25D366]/30 hover:scale-105 active:scale-95 transition-all duration-200"
-          title="Direct WhatsApp with Chief Executive Muhammad Aamir Aziz"
+          className="relative flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white shadow-2xl shadow-[#25D366]/50 hover:scale-110 active:scale-95 transition-all duration-200 group"
+          title="Direct WhatsApp Contact - Muhammad Aamir Aziz (+966 50 267 4930)"
+          aria-label="Direct WhatsApp Contact"
         >
-          <div className="relative">
-            <MessageSquare className="w-6 h-6 fill-current" />
-            <span className="w-2.5 h-2.5 rounded-full bg-white absolute -top-1 -right-1 animate-ping" />
-            <span className="w-2.5 h-2.5 rounded-full bg-white absolute -top-1 -right-1" />
-          </div>
-          <div className="text-left hidden sm:block">
-            <div className="text-[11px] font-medium opacity-90 leading-tight">Instant WhatsApp Support</div>
-            <div className="text-xs font-black leading-tight tracking-wide">Muhammad Aamir Aziz</div>
-          </div>
+          <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-30" />
+          <WhatsAppIcon className="w-8 h-8 sm:w-9 sm:h-9 fill-current relative z-10" />
         </a>
       </div>
 
-      {/* INTERACTIVE MODALS */}
-      <FlightSearchResultsModal
-        isOpen={flightModalOpen}
-        onClose={() => setFlightModalOpen(false)}
-        searchQuery={searchQuery}
-        currency={currency}
-        flightResults={currentFlightResults}
-      />
+      {/* INTERACTIVE MODALS - Loaded On-Demand via Dynamic Imports */}
+      {flightModalOpen && (
+        <Suspense fallback={null}>
+          <FlightSearchResultsModal
+            isOpen={flightModalOpen}
+            onClose={() => setFlightModalOpen(false)}
+            searchQuery={searchQuery}
+            currency={currency}
+            flightResults={currentFlightResults}
+          />
+        </Suspense>
+      )}
 
-      <AuthModal
-        isOpen={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-        initialMode={authMode}
-        onLoginSuccess={handleLoginSuccess}
-      />
+      {authModalOpen && (
+        <Suspense fallback={null}>
+          <AuthModal
+            isOpen={authModalOpen}
+            onClose={() => setAuthModalOpen(false)}
+            initialMode={authMode}
+            onLoginSuccess={handleLoginSuccess}
+          />
+        </Suspense>
+      )}
 
-      <InquiryModal
-        isOpen={inquiryModalOpen}
-        onClose={() => setInquiryModalOpen(false)}
-        serviceTitle={inquirySubject}
-      />
+      {inquiryModalOpen && (
+        <Suspense fallback={null}>
+          <InquiryModal
+            isOpen={inquiryModalOpen}
+            onClose={() => setInquiryModalOpen(false)}
+            serviceTitle={inquirySubject}
+          />
+        </Suspense>
+      )}
 
-      {/* AI Modals */}
-      <AITravelAssistantModal
-        isOpen={aiAssistantOpen}
-        onClose={() => setAiAssistantOpen(false)}
-        onOpenItineraryPlanner={() => {
-          setAiAssistantOpen(false);
-          setAiPlannerOpen(true);
-        }}
-        currentCurrency={currency}
-      />
-
-      <AISmartItineraryPlanner
-        isOpen={aiPlannerOpen}
-        onClose={() => setAiPlannerOpen(false)}
-        currentCurrency={currency}
-      />
+      {/* Unified Travel Assistant Modal */}
+      {assistantModalOpen && (
+        <Suspense fallback={null}>
+          <SmartTravelAssistantModal
+            isOpen={assistantModalOpen}
+            onClose={() => setAssistantModalOpen(false)}
+            currentCurrency={currency}
+            initialTab={assistantInitialTab}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }
