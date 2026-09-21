@@ -18,6 +18,7 @@ export interface Airport {
   city: string;
   name: string;
   country: string;
+  region?: string;
 }
 
 export interface FlightSegment {

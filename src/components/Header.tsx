@@ -235,10 +235,26 @@ export const Header: React.FC<HeaderProps> = ({
 
             {/* Direct WhatsApp Contact Info */}
             <div className="pt-6 border-t border-white/10 text-center space-y-2">
-              <p className="text-xs text-gray-300 font-medium">Chief Executive: محمد عامر عزیز</p>
-              <div className="flex flex-col gap-1 text-[11px] font-mono text-[#4ADE80]">
-                <span>KSA: +966 50 267 4930</span>
-                <span>PK: +92 301 7355753</span>
+              <p className="text-xs text-gray-300 font-medium">Chief Executive: <span className="font-bold text-[#F5D061]">محمد عامر عزیز</span></p>
+              <div className="flex flex-col gap-1.5 text-xs font-mono">
+                <a
+                  href="https://wa.me/966502674930"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center justify-center gap-1.5 text-[#4ADE80] hover:text-[#25D366] transition-colors"
+                >
+                  <span className="text-gray-400 font-sans">KSA:</span>
+                  <span dir="ltr" className="font-bold">+966 50 267 4930</span>
+                </a>
+                <a
+                  href="https://wa.me/923017355753"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center justify-center gap-1.5 text-[#4ADE80] hover:text-[#25D366] transition-colors"
+                >
+                  <span className="text-gray-400 font-sans">PK:</span>
+                  <span dir="ltr" className="font-bold">+92 301 7355753</span>
+                </a>
               </div>
             </div>
           </div>

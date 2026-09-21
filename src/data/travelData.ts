@@ -11,6 +11,9 @@ import {
   BlogPost,
   FlightOption
 } from '../types';
+import { ALL_WORLD_AIRPORTS, IATA_REGION_OPTIONS } from './airportsData';
+
+export { ALL_WORLD_AIRPORTS, IATA_REGION_OPTIONS };
 
 export const CURRENCIES: Record<CurrencyCode, CurrencyConfig> = {
   SAR: {
@@ -45,24 +48,7 @@ export const CURRENCIES: Record<CurrencyCode, CurrencyConfig> = {
   }
 };
 
-export const AIRPORTS: Airport[] = [
-  { code: 'RUH', city: 'Riyadh', name: 'King Khalid International Airport', country: 'Saudi Arabia' },
-  { code: 'JED', city: 'Jeddah', name: 'King Abdulaziz International Airport', country: 'Saudi Arabia' },
-  { code: 'AHB', city: 'Abha / Asir', name: 'Abha International Airport', country: 'Saudi Arabia' },
-  { code: 'DMM', city: 'Dammam', name: 'King Fahd International Airport', country: 'Saudi Arabia' },
-  { code: 'MED', city: 'Madinah', name: 'Prince Mohammad Bin Abdulaziz Airport', country: 'Saudi Arabia' },
-  { code: 'DXB', city: 'Dubai', name: 'Dubai International Airport', country: 'United Arab Emirates' },
-  { code: 'DOH', city: 'Doha', name: 'Hamad International Airport', country: 'Qatar' },
-  { code: 'IST', city: 'Istanbul', name: 'Istanbul New Airport', country: 'Turkey' },
-  { code: 'LHR', city: 'London', name: 'London Heathrow Airport', country: 'United Kingdom' },
-  { code: 'CDG', city: 'Paris', name: 'Paris Charles de Gaulle Airport', country: 'France' },
-  { code: 'KUL', city: 'Kuala Lumpur', name: 'Kuala Lumpur International Airport', country: 'Malaysia' },
-  { code: 'BKK', city: 'Bangkok', name: 'Suvarnabhumi Airport', country: 'Thailand' },
-  { code: 'CAI', city: 'Cairo', name: 'Cairo International Airport', country: 'Egypt' },
-  { code: 'FRA', city: 'Frankfurt', name: 'Frankfurt Airport', country: 'Germany' },
-  { code: 'SIN', city: 'Singapore', name: 'Singapore Changi Airport', country: 'Singapore' },
-  { code: 'JFK', city: 'New York', name: 'John F. Kennedy International Airport', country: 'United States' }
-];
+export const AIRPORTS: Airport[] = ALL_WORLD_AIRPORTS;
 
 export const SERVICES: ServiceItem[] = [
   {

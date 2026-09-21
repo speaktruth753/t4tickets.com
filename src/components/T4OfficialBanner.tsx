@@ -86,10 +86,10 @@ export const T4OfficialBanner: React.FC<T4OfficialBannerProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#25D366]/20 hover:bg-[#25D366]/30 border border-[#25D366]/50 text-[#4ADE80] font-mono text-[11px] font-bold transition-colors"
-              title="WhatsApp Saudi Arabia"
+              title="WhatsApp Saudi Arabia (+966 50 267 4930)"
             >
               <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
-              <span>+966 50 267 4930</span>
+              <span dir="ltr">+966 50 267 4930</span>
             </a>
 
             {/* WhatsApp PK */}
@@ -98,10 +98,10 @@ export const T4OfficialBanner: React.FC<T4OfficialBannerProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               className="hidden lg:flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/15 border border-white/20 text-white font-mono text-[11px] transition-colors"
-              title="WhatsApp Pakistan"
+              title="WhatsApp Pakistan (+92 301 7355753)"
             >
               <Phone className="w-3 h-3 text-[#F5D061]" />
-              <span>+92 301 7355753</span>
+              <span dir="ltr">+92 301 7355753</span>
             </a>
 
             {/* Button to view official full banner */}
@@ -162,7 +162,10 @@ export const T4OfficialBanner: React.FC<T4OfficialBannerProps> = ({
                     rel="noopener noreferrer"
                     className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold transition-colors"
                   >
-                    <span>Book via WhatsApp (+966 50 267 4930)</span>
+                    <span>Book via WhatsApp</span>{' '}
+                    <span dir="ltr" style={{ direction: 'ltr', unicodeBidi: 'isolate' }} className="font-mono font-bold inline-block">
+                      {'\u200E'}(+966 50 267 4930){'\u200E'}
+                    </span>
                   </a>
                   <a
                     href="mailto:T4tickets@gmail.com"
@@ -305,7 +308,7 @@ export const T4OfficialBanner: React.FC<T4OfficialBannerProps> = ({
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm border border-white/20 transition-all"
               >
-                <span>WhatsApp PK: 0301-7355753</span>
+                <span>WhatsApp PK: <span dir="ltr" className="font-mono inline-block">+92 301 7355753</span></span>
               </a>
             </div>
           </div>
@@ -355,8 +358,11 @@ export const T4OfficialBanner: React.FC<T4OfficialBannerProps> = ({
             </div>
 
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-xs">
-              <div className="text-gray-300">
-                Contact: <span className="text-[#F5D061] font-mono font-bold">+966 50 267 4930</span> / <span className="text-[#F5D061] font-mono font-bold">+92 301 7355753</span>
+              <div className="text-gray-300 flex items-center gap-1.5 flex-wrap">
+                <span>Contact:</span>
+                <span dir="ltr" className="text-[#F5D061] font-mono font-bold inline-block">+966 50 267 4930</span>
+                <span>/</span>
+                <span dir="ltr" className="text-[#F5D061] font-mono font-bold inline-block">+92 301 7355753</span>
               </div>
               <a
                 href="https://wa.me/966502674930?text=Hello%20Muhammad%20Aamir%20Aziz%2C%20I%20want%20to%20book%20tickets%20or%20Umrah%20package"

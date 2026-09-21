@@ -90,7 +90,7 @@ export const FAQS_DATA: FAQItem[] = [
     id: 'faq-5',
     category: 'general',
     question: 'Who is Muhammad Aamir Aziz and how can I contact T4 TICKETS directly?',
-    answer: 'Muhammad Aamir Aziz is the principal executive and authorized travel specialist behind T4 TICKETS AND TRAVEL SERVICES. Clients can contact him directly via Saudi WhatsApp (+966 50 267 4930), Pakistan WhatsApp (+92 301 7355753), or email (T4tickets@gmail.com) for prompt quotes, ticket reissuances, and emergency flight support 24/7.',
+    answer: 'Muhammad Aamir Aziz is the principal executive and authorized travel specialist behind T4 TICKETS AND TRAVEL SERVICES. Clients can contact him directly via Saudi WhatsApp (\u200E+966 50 267 4930\u200E), Pakistan WhatsApp (\u200E+92 301 7355753\u200E), or email (T4tickets@gmail.com) for prompt quotes, ticket reissuances, and emergency flight support 24/7.',
     keyPoints: [
       'KSA Line: +966 50 267 4930 (Calls & WhatsApp)',
       'Pakistan Line: +92 301 7355753 (Calls & WhatsApp)',
@@ -334,21 +334,29 @@ export const FAQSection: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-2.5 flex-wrap">
             <a
               href="tel:+966502674930"
-              className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition-all flex items-center gap-2"
+              className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition-all flex items-center gap-1.5"
             >
-              <span>Call KSA: +966 50 267 4930</span>
+              <span>Call KSA:</span>
+              <span dir="ltr" className="font-mono text-[#F5D061]">+966 50 267 4930</span>
+            </a>
+            <a
+              href="tel:+923017355753"
+              className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition-all flex items-center gap-1.5"
+            >
+              <span>Call PK:</span>
+              <span dir="ltr" className="font-mono text-[#F5D061]">+92 301 7355753</span>
             </a>
             <a
               href="https://wa.me/966502674930?text=Hello%20Muhammad%20Aamir%20Aziz,%20I%20need%20urgent%20flight%20or%20Umrah%20booking"
               target="_blank"
               rel="noreferrer"
-              className="px-4 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-xs shadow-lg transition-all flex items-center gap-2"
+              className="px-4 py-2 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-xs shadow-lg transition-all flex items-center gap-2"
             >
               <MessageSquare className="w-4 h-4 fill-current" />
-              <span>WhatsApp Booking Desk</span>
+              <span>WhatsApp Desk</span>
             </a>
           </div>
         </div>

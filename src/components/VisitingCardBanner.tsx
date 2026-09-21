@@ -10,7 +10,7 @@ export const VisitingCardBanner: React.FC = () => {
   const email = 'T4tickets@gmail.com';
 
   const handleCopyNumber = () => {
-    navigator.clipboard.writeText('+966502674930');
+    navigator.clipboard.writeText('+966 50 267 4930');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -140,7 +140,10 @@ export const VisitingCardBanner: React.FC = () => {
                   className="px-3 py-1.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold flex items-center gap-1.5 shadow-md transition-all text-xs"
                 >
                   <MessageSquare className="w-3.5 h-3.5 fill-current" />
-                  <span>WhatsApp KSA (+966 50 267 4930)</span>
+                  <span>WhatsApp KSA</span>{' '}
+                  <span dir="ltr" style={{ direction: 'ltr', unicodeBidi: 'isolate' }} className="font-mono inline-block font-bold">
+                    {'\u200E'}(+966 50 267 4930){'\u200E'}
+                  </span>
                 </a>
 
                 <a
@@ -152,16 +155,19 @@ export const VisitingCardBanner: React.FC = () => {
                   className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-[#F7D070] font-bold flex items-center gap-1.5 border border-[#D4AF37]/40 transition-all text-xs"
                 >
                   <Phone className="w-3.5 h-3.5" />
-                  <span>WhatsApp PK (+92 301 7355753)</span>
+                  <span>WhatsApp PK</span>{' '}
+                  <span dir="ltr" style={{ direction: 'ltr', unicodeBidi: 'isolate' }} className="font-mono inline-block font-bold">
+                    {'\u200E'}(+92 301 7355753){'\u200E'}
+                  </span>
                 </a>
 
                 <button
                   onClick={handleCopyNumber}
                   className="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-gray-300 hover:text-white font-semibold flex items-center gap-1 border border-white/10 transition-colors text-xs"
-                  title="Copy Primary Phone Number"
+                  title="Copy Primary Phone Number (+966 50 267 4930)"
                 >
                   {copied ? <Check className="w-3.5 h-3.5 text-[#25D366]" /> : null}
-                  <span>{copied ? 'Copied!' : 'Copy KSA'}</span>
+                  <span>{copied ? 'Copied!' : 'Copy KSA (+966)'}</span>
                 </button>
               </div>
             </div>

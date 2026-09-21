@@ -54,7 +54,7 @@ export const WhyChooseUs: React.FC = () => {
     },
     {
       title: '24/7 Customer Support',
-      desc: 'Multilingual round-the-clock Arabic & English travel specialists reachable via hotline +966502674930.',
+      desc: 'Multilingual round-the-clock Arabic & English travel specialists reachable via +966 50 267 4930 (KSA) and +92 301 7355753 (PK).',
       icon: Headphones
     },
     {

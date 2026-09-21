@@ -277,9 +277,10 @@ export const Footer: React.FC<FooterProps> = ({
                   href="https://wa.me/966502674930?text=Assalam%20u%20Alaikum%20Muhammad%20Aamir%20Aziz%2C%20I%20want%20to%20book%20travel%20services"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-mono font-bold text-white hover:text-[#25D366] transition-colors"
+                  className="font-mono font-bold text-white hover:text-[#25D366] transition-colors flex items-center gap-1.5 flex-wrap"
                 >
-                  +966 50 267 4930 (WhatsApp KSA)
+                  <span dir="ltr" className="inline-block">+966 50 267 4930</span>
+                  <span className="text-gray-400 font-sans text-[11px]">(WhatsApp KSA)</span>
                 </a>
               </div>
 
@@ -290,9 +291,10 @@ export const Footer: React.FC<FooterProps> = ({
                   href="https://wa.me/923017355753?text=Assalam%20u%20Alaikum%20T4%20Tickets%2C%20I%20want%20to%20inquire%20about%20flights"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-mono font-bold text-white hover:text-[#25D366] transition-colors"
+                  className="font-mono font-bold text-white hover:text-[#25D366] transition-colors flex items-center gap-1.5 flex-wrap"
                 >
-                  +92 301 7355753 (WhatsApp PK)
+                  <span dir="ltr" className="inline-block">+92 301 7355753</span>
+                  <span className="text-gray-400 font-sans text-[11px]">(WhatsApp PK)</span>
                 </a>
               </div>
 

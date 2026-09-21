@@ -59,7 +59,7 @@
     <circle cx="26" cy="21" r="14" fill="#25D366" />
     <!-- WhatsApp phone icon inside circle -->
     <path d="M 21 16 C 24 13 28 13 31 16 L 31 19 C 29 19 28 20 27 21 C 26 22 25 23 25 25 L 28 25" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round" />
-    <text x="160" y="27" text-anchor="middle" font-family="monospace, sans-serif" font-size="18" font-weight="bold" fill="#FFFFFF">966502674930</text>
+    <text x="160" y="27" text-anchor="middle" font-family="'Segoe UI', Roboto, Ubuntu, monospace, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" direction="ltr" unicode-bidi="bidi-override">+966 50 267 4930</text>
   </g>
 
   <!-- WhatsApp PK -->
@@ -67,7 +67,7 @@
     <rect x="0" y="0" width="280" height="42" rx="21" fill="#0A224F" stroke="url(#goldRibbon)" stroke-width="2" />
     <circle cx="26" cy="21" r="14" fill="#25D366" />
     <path d="M 21 16 C 24 13 28 13 31 16 L 31 19 C 29 19 28 20 27 21 C 26 22 25 23 25 25 L 28 25" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round" />
-    <text x="160" y="27" text-anchor="middle" font-family="monospace, sans-serif" font-size="18" font-weight="bold" fill="#FFFFFF">923017355753</text>
+    <text x="160" y="27" text-anchor="middle" font-family="'Segoe UI', Roboto, Ubuntu, monospace, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" direction="ltr" unicode-bidi="bidi-override">+92 301 7355753</text>
   </g>
 
   <!-- Email -->
