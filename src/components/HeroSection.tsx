@@ -19,6 +19,7 @@ import {
 import { Airport, CabinClass, FlightSearchQuery, TripType } from '../types';
 import { AIRPORTS } from '../data/travelData';
 import { formatCabinClassName, formatPassengerCount } from '../utils/formatters';
+import { WhatsAppIcon } from './WhatsAppIcon';
 
 interface HeroSectionProps {
   onSearchFlights: (query: FlightSearchQuery) => void;
@@ -560,16 +561,25 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
                 </label>
               </div>
 
-              {/* Large Search Flights CTA Button */}
+              {/* Large Search Flights CTA Button - Direct WhatsApp Inquiry */}
               <button
                 type="submit"
                 id="search-flights-cta"
-                className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#D62828] via-[#E53935] to-[#D62828] hover:brightness-110 text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[#D62828]/35 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+                className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2.5 shadow-lg shadow-[#25D366]/35 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 group"
+                title="Send flight dates and route directly to WhatsApp (+966 50 267 4930)"
               >
-                <Plane className="w-5 h-5 transform -rotate-45" />
-                <span>Search Lowest Fares</span>
-                <ArrowRight className="w-4 h-4" />
+                <WhatsAppIcon className="w-5 h-5 fill-current" />
+                <span>Search &amp; Send to WhatsApp</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
+            </div>
+
+            {/* Helper note for direct WhatsApp inquiry */}
+            <div className="mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-center gap-2 text-[11px] text-gray-500 font-medium">
+              <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse shrink-0" />
+              <span>
+                آپ کی منتخب تاریخیں اور روٹ فوری طور پر واٹس ایپ پر محمد عامر عزیز صاحب (+966 50 267 4930) کو موصول ہو جائیں گے۔
+              </span>
             </div>
           </form>
         </div>

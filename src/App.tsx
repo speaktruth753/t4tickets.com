@@ -120,89 +120,52 @@ export default function App() {
   const handleSearchFlights = (query: FlightSearchQuery) => {
     setSearchQuery(query);
 
-    // Dynamically adjust mock flight prices and airlines to reflect chosen airports
-    const dynamicResults: FlightOption[] = [
-      {
-        id: 'FL-SV-104',
-        airline: 'Saudia',
-        airlineCode: 'SV',
-        flightNumber: 'SV 104',
-        logoColor: '#006C35',
-        from: query.from,
-        to: query.to,
-        departureTime: '08:30',
-        arrivalTime: '11:15',
-        duration: '2h 45m',
-        stops: 0,
-        priceUSD: 189,
-        cabinClass: query.cabinClass,
-        seatsLeft: 4,
-        aircraft: 'Boeing 787-9 Dreamliner',
-        baggage: '1x 23kg Checked + 7kg Cabin',
-        refundable: true
-      },
-      {
-        id: 'FL-EK-816',
-        airline: 'Emirates',
-        airlineCode: 'EK',
-        flightNumber: 'EK 816',
-        logoColor: '#D71921',
-        from: query.from,
-        to: query.to,
-        departureTime: '12:45',
-        arrivalTime: '15:35',
-        duration: '2h 50m',
-        stops: 0,
-        priceUSD: 215,
-        cabinClass: query.cabinClass,
-        seatsLeft: 6,
-        aircraft: 'Airbus A380-800',
-        baggage: '1x 30kg Checked + 7kg Cabin',
-        refundable: true
-      },
-      {
-        id: 'FL-QR-1165',
-        airline: 'Qatar Airways',
-        airlineCode: 'QR',
-        flightNumber: 'QR 1165',
-        logoColor: '#5C0632',
-        from: query.from,
-        to: query.to,
-        departureTime: '16:20',
-        arrivalTime: '20:10',
-        duration: '3h 50m',
-        stops: 1,
-        stopoverCity: 'Doha (DOH)',
-        priceUSD: 172,
-        cabinClass: query.cabinClass,
-        seatsLeft: 3,
-        aircraft: 'Airbus A350-900',
-        baggage: '1x 25kg Checked + 7kg Cabin',
-        refundable: false
-      },
-      {
-        id: 'FL-XY-402',
-        airline: 'Flynas',
-        airlineCode: 'XY',
-        flightNumber: 'XY 402',
-        logoColor: '#00A651',
-        from: query.from,
-        to: query.to,
-        departureTime: '20:00',
-        arrivalTime: '22:40',
-        duration: '2h 40m',
-        stops: 0,
-        priceUSD: 145,
-        cabinClass: query.cabinClass,
-        seatsLeft: 8,
-        aircraft: 'Airbus A320neo',
-        baggage: '1x 20kg Checked + 7kg Cabin',
-        refundable: false
-      }
+    const tripTypeLabel =
+      query.tripType === 'roundTrip'
+        ? 'Round Trip (دو طرفہ)'
+        : query.tripType === 'oneWay'
+        ? 'One Way (ایک طرفہ)'
+        : 'Multi City';
+
+    const cabinLabel =
+      query.cabinClass === 'economy'
+        ? 'Economy Class'
+        : query.cabinClass === 'business'
+        ? 'Business Class'
+        : 'First Class';
+
+    const travelersText = `${query.passengers.adults} Adult(s)${
+      query.passengers.children > 0 ? `, ${query.passengers.children} Child(ren)` : ''
+    }${query.passengers.infants > 0 ? `, ${query.passengers.infants} Infant(s)` : ''}`;
+
+    const textLines = [
+      '✈️ *New Flight Inquiry - T4 TICKETS & TRAVEL SERVICES*',
+      '',
+      'Assalam-o-Alaikum Muhammad Aamir Aziz,',
+      'I want to inquire about flight tickets & lowest fares for the following dates:',
+      '',
+      `🛫 *From:* ${query.from.city} (${query.from.code}) - ${query.from.country}`,
+      `🛬 *To:* ${query.to.city} (${query.to.code}) - ${query.to.country}`,
+      `🔄 *Trip Type:* ${tripTypeLabel}`,
+      `📅 *Departure Date:* ${query.departureDate}`,
+      ...(query.tripType !== 'oneWay' && query.returnDate
+        ? [`🔙 *Return Date:* ${query.returnDate}`]
+        : []),
+      `👥 *Travelers:* ${travelersText}`,
+      `💺 *Cabin Class:* ${cabinLabel}`,
+      `⚡ *Direct Flights Only:* ${query.directFlightsOnly ? 'Yes' : 'Any Airline'}`,
+      ...(query.flexibleDates ? ['📆 *Dates:* Flexible (±3 Days)'] : []),
+      '',
+      'Please check and send the best available airline fares and ticket options. Thank you!'
     ];
 
-    setCurrentFlightResults(dynamicResults);
-    setFlightModalOpen(true);
+    const message = textLines.join('\n');
+    const whatsappUrl = `https://wa.me/966502674930?text=${encodeURIComponent(message)}`;
+
+    showToast('✈️ فلائٹ کی تمام تفصیلات اور تاریخیں براہِ راست واٹس ایپ پر ارسال کی جا رہی ہیں...');
+
+    // Open WhatsApp directly with the complete flight inquiry
+    window.open(whatsappUrl, '_blank');
   };
 
   const handleBookDeal = (deal: ExclusiveDeal) => {
