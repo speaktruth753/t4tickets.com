@@ -1,0 +1,8 @@
+{
+  "name": "T4TICKETS & TRAVEL SERVICES",
+  "description": "Book cheapest airline tickets, VIP 5-star Umrah packages, Saudi visit & tourist visas, and Wafid GCC medical slips with T4 TICKETS & TRAVEL SERVICES. Managed by Muhammad Aamir Aziz.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
