@@ -6,11 +6,13 @@ import {
   FileCheck2,
   MoonStar,
   Sparkles,
-  HelpCircle
+  HelpCircle,
+  Flame
 } from 'lucide-react';
 import { CurrencyCode, LanguageCode } from '../types';
 import { T4Logo, LogoColorTheme } from './T4Logo';
 import { WhatsAppIcon } from './WhatsAppIcon';
+import { HadithTickerBanner } from './HadithTickerBanner';
 
 interface HeaderProps {
   currentCurrency?: CurrencyCode;
@@ -42,6 +44,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   const navItems = [
     { id: 'hero-section', label: 'Flights', icon: Plane },
+    { id: 'special-offers-countdown', label: 'Flash Offers', icon: Flame, badge: 'HOT' },
     { id: 'umrah-section', label: 'Umrah Packages', icon: MoonStar, badge: 'VIP' },
     { id: 'services-section', label: 'Visas & Medical', icon: FileCheck2 },
     { id: 'deals-section', label: 'Top Deals', icon: Sparkles },
@@ -58,6 +61,9 @@ export const Header: React.FC<HeaderProps> = ({
             : 'bg-[#071A3D] border-b border-white/10'
         }`}
       >
+        {/* Animated Islamic Hadith & Hisn al-Muslim Ticker (1,000 Ahadith in Nastaliq) */}
+        <HadithTickerBanner />
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3">
           <div className="flex items-center justify-between">
             {/* Left: Brand Identity with 3D Rendered Logo */}

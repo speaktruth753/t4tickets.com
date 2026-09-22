@@ -7,6 +7,15 @@
   h1, h2, h3, h4, h5, h6, .font-heading {
     font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
   }
+  .font-arabic {
+    font-family: 'Amiri', 'Noto Naskh Arabic', 'Traditional Arabic', 'Scheherazade New', serif;
+    direction: rtl;
+  }
+  .font-nastaliq {
+    font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Urdu Typesetting', serif;
+    direction: rtl;
+    line-height: 2;
+  }
 }
 
 @keyframes float-gentle {
@@ -46,3 +55,46 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+@keyframes continuous-ticker-ltr {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes continuous-ticker-rtl {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-hadith-ticker-ltr {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: continuous-ticker-ltr 700s linear infinite;
+  will-change: transform;
+}
+
+.animate-hadith-ticker-rtl {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: continuous-ticker-rtl 700s linear infinite;
+  will-change: transform;
+}
+
+.animate-hadith-ticker-ltr.paused,
+.animate-hadith-ticker-rtl.paused {
+  animation-play-state: paused !important;
+}
+
+.animate-hadith-ticker-ltr:hover,
+.animate-hadith-ticker-rtl:hover {
+  animation-play-state: paused;
+}
+

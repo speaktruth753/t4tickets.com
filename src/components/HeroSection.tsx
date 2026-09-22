@@ -265,7 +265,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
   };
 
   return (
-    <section id="hero-section" className="relative pt-24 sm:pt-28 pb-10 sm:pb-14 bg-gradient-to-b from-[#071A3D] via-[#0A2458] to-[#071A3D] text-white">
+    <section id="hero-section" className="relative pt-32 sm:pt-36 lg:pt-40 pb-10 sm:pb-14 bg-gradient-to-b from-[#071A3D] via-[#0A2458] to-[#071A3D] text-white">
       {/* Lightweight subtle ambient gradient (No heavy image or CPU-draining SVG loops) */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-40 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-700/20 via-transparent to-transparent" />
 

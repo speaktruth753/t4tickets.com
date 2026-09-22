@@ -4,6 +4,7 @@ import { HeroSection } from './components/HeroSection';
 import { LogoColorTheme } from './components/T4Logo';
 import { WhatsAppIcon } from './components/WhatsAppIcon';
 import { CheckCircle2 } from 'lucide-react';
+import { initGoogleAnalytics, trackFloatingWhatsAppDirectClick } from './utils/analytics';
 
 // Dynamic imports (Code-splitting for non-essential below-the-fold sections)
 const FeaturedServices = lazy(() =>
@@ -23,6 +24,11 @@ const FAQSection = lazy(() =>
 );
 const Footer = lazy(() =>
   import('./components/Footer').then((m) => ({ default: m.Footer }))
+);
+const SpecialOfferCountdownBanner = lazy(() =>
+  import('./components/SpecialOfferCountdownBanner').then((m) => ({
+    default: m.SpecialOfferCountdownBanner
+  }))
 );
 
 // Dynamic imports for heavy interactive modals (Only fetched on-demand)
@@ -80,9 +86,15 @@ export default function App() {
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
   const [inquirySubject, setInquirySubject] = useState('Flight & Travel Inquiry');
 
+  // Initialize Google Analytics on mount
+  useEffect(() => {
+    initGoogleAnalytics();
+  }, []);
+
   // Unified Smart Travel Assistant state
   const [assistantModalOpen, setAssistantModalOpen] = useState(false);
   const [assistantInitialTab, setAssistantInitialTab] = useState<'chat' | 'planner'>('chat');
+  const [isWhatsAppClicked, setIsWhatsAppClicked] = useState(false);
 
   // Logged-in user state
   const [userName, setUserName] = useState<string | null>(null);
@@ -271,6 +283,14 @@ export default function App() {
         {/* HERO SECTION with Flight Search Engine & Instant Fast Routes */}
         <HeroSection onSearchFlights={handleSearchFlights} />
 
+        {/* ANIMATED SPECIAL OFFER & LIVE COUNTDOWN BANNER */}
+        <Suspense fallback={<div className="h-64 bg-[#0A192F] animate-pulse" />}>
+          <SpecialOfferCountdownBanner
+            currency={currency}
+            onOpenInquiry={handleOpenInquiry}
+          />
+        </Suspense>
+
         {/* Deferred Below-The-Fold Sections Loaded via Code-Splitting */}
         <Suspense fallback={<SectionSkeleton />}>
           {/* FEATURED SERVICES SECTION (Core travel services: Airline tickets, Umrah, Visas, Wafid GCC Medical) */}
@@ -310,12 +330,31 @@ export default function App() {
           href="https://wa.me/966502674930?text=Assalam%20u%20Alaikum%20Muhammad%20Aamir%20Aziz%2C%20I%20want%20to%20book%20a%20ticket%20or%20visa"
           target="_blank"
           rel="noreferrer"
-          className="relative flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white shadow-2xl shadow-[#25D366]/50 hover:scale-110 active:scale-95 transition-all duration-200 group"
+          onClick={() => {
+            setIsWhatsAppClicked(true);
+            trackFloatingWhatsAppDirectClick();
+            setTimeout(() => {
+              setIsWhatsAppClicked(false);
+            }, 300);
+          }}
+          className={`relative flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white shadow-2xl shadow-[#25D366]/50 transition-all duration-150 ease-out group select-none ${
+            isWhatsAppClicked
+              ? 'scale-90 shadow-md ring-4 ring-[#25D366]/40'
+              : 'hover:scale-110 active:scale-90'
+          }`}
           title="Direct WhatsApp Contact - Muhammad Aamir Aziz (+966 50 267 4930)"
           aria-label="Direct WhatsApp Contact"
         >
-          <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-30" />
-          <WhatsAppIcon className="w-8 h-8 sm:w-9 sm:h-9 fill-current relative z-10" />
+          <span
+            className={`absolute inset-0 rounded-full bg-[#25D366] transition-opacity duration-150 ${
+              isWhatsAppClicked ? 'opacity-0 scale-75' : 'animate-ping opacity-30'
+            }`}
+          />
+          <WhatsAppIcon
+            className={`w-8 h-8 sm:w-9 sm:h-9 fill-current relative z-10 transition-transform duration-150 ${
+              isWhatsAppClicked ? 'scale-90' : 'group-hover:scale-105'
+            }`}
+          />
         </a>
       </div>
 
