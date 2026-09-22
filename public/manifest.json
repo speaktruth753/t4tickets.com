@@ -1,0 +1,17 @@
+{
+  "name": "T4 TICKETS & TRAVEL SERVICES",
+  "short_name": "T4 Tickets",
+  "description": "Book cheapest airline tickets, VIP 5-star Umrah packages, Saudi visit & tourist visas, and Wafid GCC medical slips with T4 TICKETS & TRAVEL SERVICES. Managed by Muhammad Aamir Aziz.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#071A3D",
+  "theme_color": "#071A3D",
+  "icons": [
+    {
+      "src": "/t4_logo_3d_render_gold.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
