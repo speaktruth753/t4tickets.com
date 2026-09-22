@@ -16,6 +16,7 @@ import {
 import { T4OfficialBanner } from './T4OfficialBanner';
 import { T4Logo, LogoColorTheme } from './T4Logo';
 import { WhatsAppIcon } from './WhatsAppIcon';
+import { useLanguage } from '../context/LanguageContext';
 
 interface FooterProps {
   onNavigate: (sectionId: string) => void;
@@ -30,6 +31,8 @@ export const Footer: React.FC<FooterProps> = ({
   onOpenAssistant,
   brandColor = 'red'
 }) => {
+  const { t, language } = useLanguage();
+  const fontClass = language === 'UR' ? 'font-nastaliq' : language === 'AR' ? 'font-arabic' : 'font-sans';
   const topBorderClass = brandColor === 'gold'
     ? 'border-[#C29427]/40'
     : brandColor === 'royal'
@@ -100,8 +103,8 @@ export const Footer: React.FC<FooterProps> = ({
               </div>
             </div>
 
-            <p className="text-xs sm:text-sm text-gray-300 leading-relaxed max-w-sm">
-              Your certified international travel partner for cheapest airline tickets, VIP Umrah packages, fast visit &amp; work visas, and GCC medical appointments.
+            <p className={`text-xs sm:text-sm text-gray-300 leading-relaxed max-w-sm ${fontClass}`}>
+              {t.footerDesc}
             </p>
 
             {/* Designated Logo Specification & Brand Badge */}
@@ -163,48 +166,48 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Quick Links */}
           <div className="space-y-3">
-            <h4 className="text-sm font-extrabold text-white uppercase tracking-wider font-heading text-[#F5D061]">
-              Quick Navigation
+            <h4 className={`text-sm font-extrabold uppercase tracking-wider font-heading text-[#F5D061] ${fontClass}`}>
+              {language === 'UR' ? 'اہم لنکس' : language === 'AR' ? 'روابط سريعة' : 'Quick Navigation'}
             </h4>
-            <ul className="space-y-2 text-xs text-gray-300">
+            <ul className={`space-y-2 text-xs text-gray-300 ${fontClass}`}>
               <li>
                 <button
                   onClick={() => onNavigate('hero-section')}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
-                  Flight Booking Engine
+                  {language === 'UR' ? 'فلائٹ بکنگ سرچ' : language === 'AR' ? 'محرك حجز الطيران' : 'Flight Booking Engine'}
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => onNavigate('umrah-section')}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
-                  VIP Umrah Packages
+                  {language === 'UR' ? 'وی آئی پی عمرہ پیکجز' : language === 'AR' ? 'باقات العمرة VIP' : 'VIP Umrah Packages'}
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => onNavigate('services-section')}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
-                  Visa &amp; GCC Medical Desk
+                  {language === 'UR' ? 'ویزا و وافد میڈیکل ڈیسک' : language === 'AR' ? 'قسم التأشيرات وفحص وافد' : 'Visa & GCC Medical Desk'}
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => onNavigate('deals-section')}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
-                  Special Flight Deals
+                  {language === 'UR' ? 'رعایتی پروازیں' : language === 'AR' ? 'عروض الطيران المميزة' : 'Special Flight Deals'}
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => onNavigate('why-us-section')}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
-                  Why Book With T4 Tickets
+                  {language === 'UR' ? 'ہمیں کیوں منتخب کریں' : language === 'AR' ? 'لماذا تختار تي فور' : 'Why Book With T4 Tickets'}
                 </button>
               </li>
             </ul>
@@ -212,48 +215,48 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Services from Banner */}
           <div className="space-y-3">
-            <h4 className="text-sm font-extrabold text-white uppercase tracking-wider font-heading text-[#F5D061]">
-              Services Offered
+            <h4 className={`text-sm font-extrabold uppercase tracking-wider font-heading text-[#F5D061] ${fontClass}`}>
+              {language === 'UR' ? 'ہماری خدمات' : language === 'AR' ? 'خدماتنا المعتمدة' : 'Services Offered'}
             </h4>
-            <ul className="space-y-2 text-xs text-gray-300">
+            <ul className={`space-y-2 text-xs text-gray-300 ${fontClass}`}>
               <li>
                 <button
                   onClick={() => onOpenInquiry('Airline Tickets (Domestic & International)')}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
-                  ✈️ Airline Tickets (12+ Carriers)
+                  ✈️ {language === 'UR' ? 'تمام ایئر لائنز کی ٹکٹنگ' : language === 'AR' ? 'تذاكر طيران لجميع الوجهات' : 'Airline Tickets (12+ Carriers)'}
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => onOpenInquiry('Visit Visas Inquiry')}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
-                  🛂 Visit Visas (Saudi, UAE, UK)
+                  🛂 {language === 'UR' ? 'سعودی وزٹ و سیاحتی ویزا' : language === 'AR' ? 'تأشيرات الزيارة والسياحة' : 'Visit Visas (Saudi, UAE, UK)'}
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => onOpenInquiry('VIP Umrah Packages')}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
-                  🕋 VIP Umrah (Makkah &amp; Madinah)
+                  🕋 {language === 'UR' ? 'وی آئی پی فائیو اسٹار عمرہ' : language === 'AR' ? 'عمرة VIP مكة والمدينة' : 'VIP Umrah (Makkah & Madinah)'}
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => onOpenInquiry('GCC Medical Appointment (Gamca/Wafid)')}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
-                  🩺 GCC Medical Appointment
+                  🩺 {language === 'UR' ? 'وافد گامکا میڈیکل اپائنٹمنٹ' : language === 'AR' ? 'حجز فحص وافد الطبي (جامكا)' : 'GCC Medical Appointment'}
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => onOpenInquiry('Travel Insurance & Work Visas')}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
-                  🛡️ Travel Insurance &amp; Work Visas
+                  🛡️ {language === 'UR' ? 'ٹریول انشورنس و ورک ویزا' : language === 'AR' ? 'تأمين السفر وتأشيرات العمل' : 'Travel Insurance & Work Visas'}
                 </button>
               </li>
             </ul>
@@ -261,13 +264,13 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Contact Information & Branches from Banner */}
           <div className="space-y-3">
-            <h4 className="text-sm font-extrabold text-white uppercase tracking-wider font-heading text-[#F5D061]">
-              Direct Contact &amp; Desks
+            <h4 className={`text-sm font-extrabold uppercase tracking-wider font-heading text-[#F5D061] ${fontClass}`}>
+              {language === 'UR' ? 'براہ راست رابطہ اور دفاتر' : language === 'AR' ? 'التواصل المباشر والفروع' : 'Direct Contact & Desks'}
             </h4>
-            <div className="space-y-2.5 text-xs text-gray-300">
+            <div className={`space-y-2.5 text-xs text-gray-300 ${fontClass}`}>
               <div className="text-xs font-bold text-white">
-                Manager: Muhammad Aamir Aziz
-                <span className="block text-[#F5D061] font-serif text-sm">محمد عامر عزیز</span>
+                {language === 'UR' ? 'منیجر: محمد عامر عزیز' : language === 'AR' ? 'المدير العام: محمد عامر عزيز' : 'Manager: Muhammad Aamir Aziz'}
+                <span className={`block text-[#F5D061] text-sm ${language === 'UR' ? 'font-nastaliq' : 'font-arabic'}`}>محمد عامر عزیز</span>
               </div>
 
               {/* Saudi Arabia WhatsApp */}
@@ -313,8 +316,10 @@ export const Footer: React.FC<FooterProps> = ({
               <div className="flex items-start gap-2 pt-1 border-t border-white/10">
                 <MapPin className="w-3.5 h-3.5 text-[#F5D061] shrink-0 mt-0.5" />
                 <div className="text-gray-300 leading-relaxed">
-                  <div className="font-bold text-white mb-0.5">Saudi Arabia Branches:</div>
-                  <div className="text-xs text-[#F5D061] font-serif">
+                  <div className="font-bold text-white mb-0.5">
+                    {language === 'UR' ? 'سعودی عرب کی شاخیں:' : language === 'AR' ? 'فروع المملكة العربية السعودية:' : 'Saudi Arabia Branches:'}
+                  </div>
+                  <div className={`text-xs text-[#F5D061] ${language === 'UR' ? 'font-nastaliq' : 'font-arabic'}`}>
                     بارق • المجاردة • محايل عسير • أبها
                   </div>
                   <div className="text-[10px] text-gray-400 mt-0.5">
@@ -356,12 +361,12 @@ export const Footer: React.FC<FooterProps> = ({
         </div>
 
         {/* Bottom Section: Copyright & Slogan */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
+        <div className={`pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400 ${fontClass}`}>
           <div>
-            &copy; {new Date().getFullYear()} <strong className="text-white">T4 TICKETS AND TRAVELS SERVICES</strong>. All rights reserved.
+            &copy; {new Date().getFullYear()} <strong className="text-white">T4 TICKETS AND TRAVELS SERVICES</strong>. {t.footerRights}
           </div>
-          <div className="text-xs text-[#F5D061] font-serif font-bold">
-            سستی ترین ٹکٹ ، بہترین سروس ، ہر سفر بے فکر
+          <div className={`text-xs text-[#F5D061] font-bold ${fontClass}`}>
+            {t.footerSlogan}
           </div>
         </div>
       </div>

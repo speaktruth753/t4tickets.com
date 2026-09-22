@@ -16,6 +16,8 @@ import {
   Briefcase
 } from 'lucide-react';
 
+import { useLanguage } from '../context/LanguageContext';
+
 interface T4OfficialBannerProps {
   variant?: 'header' | 'footer' | 'standalone';
   onSelectService?: (serviceName: string) => void;
@@ -27,17 +29,19 @@ export const T4OfficialBanner: React.FC<T4OfficialBannerProps> = ({
   onSelectService,
   onOpenInquiry
 }) => {
+  const { language } = useLanguage();
+  const fontClass = language === 'UR' ? 'font-nastaliq' : language === 'AR' ? 'font-arabic' : 'font-sans';
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [imgSrc, setImgSrc] = useState('/Gemini_Generated_Image_50d23e50d23e50d2.jpg');
 
   const services = [
-    { name: 'Airline Tickets', urdu: 'فضائی ٹکٹیں', icon: Plane, color: '#D62828' },
-    { name: 'Visit Visas', urdu: 'سیاحتی ویزا', icon: FileCheck2, color: '#0A2458' },
-    { name: 'Umrah Packages', urdu: 'عمرہ پیکجز', icon: Building2, color: '#C29427' },
-    { name: 'Travel Insurance', urdu: 'ٹریول انشورنس', icon: ShieldCheck, color: '#16A34A' },
-    { name: 'Work Visas', urdu: 'ورک ویزا', icon: Briefcase, color: '#0891B2' },
-    { name: 'GCC Medical Appointment', urdu: 'جی سی سی میڈیکل', icon: Stethoscope, color: '#DC2626' },
-    { name: 'Group Tickets', urdu: 'گروپ بکنگ', icon: Users, color: '#7C3AED' },
+    { name: 'Airline Tickets', urdu: 'فضائی ٹکٹیں', arabic: 'تذاكر طيران', icon: Plane, color: '#D62828' },
+    { name: 'Visit Visas', urdu: 'سیاحتی ویزا', arabic: 'تأشيرات الزيارة', icon: FileCheck2, color: '#0A2458' },
+    { name: 'Umrah Packages', urdu: 'عمرہ پیکجز', arabic: 'باقات العمرة VIP', icon: Building2, color: '#C29427' },
+    { name: 'Travel Insurance', urdu: 'ٹریول انشورنس', arabic: 'تأمين السفر الطبي', icon: ShieldCheck, color: '#16A34A' },
+    { name: 'Work Visas', urdu: 'ورک ویزا', arabic: 'تأشيرات العمل', icon: Briefcase, color: '#0891B2' },
+    { name: 'GCC Medical Appointment', urdu: 'جی سی سی میڈیکل', arabic: 'فحص وافد الطبي', icon: Stethoscope, color: '#DC2626' },
+    { name: 'Group Tickets', urdu: 'گروپ بکنگ', arabic: 'تذاكر المجموعات', icon: Users, color: '#7C3AED' },
   ];
 
   const airlinePartners = [
@@ -58,25 +62,31 @@ export const T4OfficialBanner: React.FC<T4OfficialBannerProps> = ({
   // Header compact adjustment view
   if (variant === 'header') {
     return (
-      <div className="w-full bg-gradient-to-r from-[#051433] via-[#0A2458] to-[#051433] text-white border-b border-[#C29427]/40 shadow-inner">
+      <div className={`w-full bg-gradient-to-r from-[#051433] via-[#0A2458] to-[#051433] text-white border-b border-[#C29427]/40 shadow-inner ${fontClass}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-1.5 flex flex-wrap items-center justify-between gap-2 text-xs">
-          {/* Slogan in Urdu & English */}
+          {/* Slogan in Urdu, Arabic & English */}
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded-full bg-[#C29427]/20 border border-[#C29427]/50 text-[#F5D061] text-[10px] font-bold uppercase tracking-wider">
-              IATA Verified
+            <span className={`px-2 py-0.5 rounded-full bg-[#C29427]/20 border border-[#C29427]/50 text-[#F5D061] text-[10px] font-bold uppercase tracking-wider ${fontClass}`}>
+              {language === 'UR' ? 'آئی اے ٹی اے مصدقہ' : language === 'AR' ? 'معتمد من إياتا IATA' : 'IATA Verified'}
             </span>
             <span className="font-semibold text-white/90 hidden sm:inline text-xs">
               T4 TICKETS &amp; TRAVEL SERVICES:
             </span>
-            <span className="text-[#F5D061] font-bold text-xs font-serif tracking-wide">
-              سستی ترین ٹکٹ ، بہترین سروس ، ہر سفر بے فکر
+            <span className={`text-[#F5D061] font-bold text-xs tracking-wide ${fontClass}`}>
+              {language === 'UR'
+                ? 'سستی ترین ٹکٹ ، بہترین سروس ، ہر سفر بے فکر'
+                : language === 'AR'
+                ? 'أرخص التذاكر ، أفضل الخدمات ، سفر آمن وموثوق'
+                : 'Affordable Tickets • Premium Service • Worry-Free Journey'}
             </span>
           </div>
 
           {/* Quick Direct WhatsApp & Manager Hotline */}
           <div className="flex items-center gap-3 ml-auto">
-            <div className="hidden md:flex items-center gap-1.5 text-gray-300">
-              <span className="text-[11px] text-gray-400">Chief Executive:</span>
+            <div className={`hidden md:flex items-center gap-1.5 text-gray-300 ${fontClass}`}>
+              <span className="text-[11px] text-gray-400">
+                {language === 'UR' ? 'چیف ایگزیکٹو:' : language === 'AR' ? 'المدير العام:' : 'Chief Executive:'}
+              </span>
               <span className="text-white font-medium text-xs">محمد عامر عزیز</span>
             </div>
 
@@ -127,14 +137,18 @@ export const T4OfficialBanner: React.FC<T4OfficialBannerProps> = ({
               </button>
 
               <div className="text-center mb-4">
-                <span className="text-[11px] font-bold uppercase tracking-widest text-[#F5D061]">
-                  Official Certified Identity
+                <span className={`text-[11px] font-bold uppercase tracking-widest text-[#F5D061] ${fontClass}`}>
+                  {language === 'UR' ? 'سرکاری تصدیق شدہ شناخت' : language === 'AR' ? 'الهوية الرسمية المعتمدة' : 'Official Certified Identity'}
                 </span>
                 <h3 className="text-xl sm:text-2xl font-black text-white font-heading">
                   T4 TICKETS AND TRAVELS SERVICES
                 </h3>
-                <p className="text-sm text-gray-300 font-serif">
-                  سستی ترین ٹکٹ ، بہترین سروس ، ہر سفر بے فکر • محمد عامر عزیز
+                <p className={`text-sm text-gray-300 ${fontClass}`}>
+                  {language === 'UR'
+                    ? 'سستی ترین ٹکٹ ، بہترین سروس ، ہر سفر بے فکر • محمد عامر عزیز'
+                    : language === 'AR'
+                    ? 'أرخص التذاكر ، أفضل الخدمات ، سفر آمن وموثوق • محمد عامر عزيز'
+                    : 'Affordable Tickets • Premium Service • Worry-Free Journey • Muhammad Aamir Aziz'}
                 </p>
               </div>
 
@@ -211,17 +225,21 @@ export const T4OfficialBanner: React.FC<T4OfficialBannerProps> = ({
         </div>
 
         {/* Gallery of Services Strip (from the Banner) */}
-        <div className="p-6 sm:p-8 bg-[#051433]/90 backdrop-blur-md border-t border-[#C29427]/30">
+        <div className={`p-6 sm:p-8 bg-[#051433]/90 backdrop-blur-md border-t border-[#C29427]/30 ${fontClass}`}>
           <div className="text-center mb-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C29427]/20 border border-[#C29427]/50 text-[#F5D061] text-xs font-bold uppercase tracking-wider mb-2">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Gallery of Services</span>
+              <span>{language === 'UR' ? 'ہماری تمام سروسز' : language === 'AR' ? 'دليل الخدمات السياحية' : 'Gallery of Services'}</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-black text-white font-heading">
-              Comprehensive Travel &amp; Ticketing Solutions
+            <h3 className={`text-xl sm:text-2xl font-black text-white font-heading ${fontClass}`}>
+              {language === 'UR' ? 'جامع سفری و فلائٹ سروسز' : language === 'AR' ? 'خدمات السفر والحجوزات الشاملة' : 'Comprehensive Travel & Ticketing Solutions'}
             </h3>
-            <p className="text-sm text-gray-300 max-w-xl mx-auto mt-1">
-              Select any service below to instantly check rates, requirements, and book through our certified travel desk.
+            <p className={`text-sm text-gray-300 max-w-xl mx-auto mt-1 ${fontClass}`}>
+              {language === 'UR'
+                ? 'کسی بھی سروس کو منتخب کریں تاکہ فوری طور پر ریٹس اور تصدیق واٹس ایپ پر حاصل کر سکیں۔'
+                : language === 'AR'
+                ? 'اختر الخدمة المناسبة لمعرفة الأسعار والمتطلبات والحجز مباشرة عبر مكتبنا المعتمد.'
+                : 'Select any service below to instantly check rates, requirements, and book through our certified travel desk.'}
             </p>
           </div>
 
@@ -236,7 +254,7 @@ export const T4OfficialBanner: React.FC<T4OfficialBannerProps> = ({
                     if (onSelectService) onSelectService(srv.name);
                     if (onOpenInquiry) onOpenInquiry(`Inquiry: ${srv.name}`);
                   }}
-                  className="flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl bg-white/5 hover:bg-[#C29427]/20 border border-[#C29427]/30 hover:border-[#F5D061] transition-all duration-200 group text-center hover:scale-105"
+                  className={`flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl bg-white/5 hover:bg-[#C29427]/20 border border-[#C29427]/30 hover:border-[#F5D061] transition-all duration-200 group text-center hover:scale-105 cursor-pointer ${fontClass}`}
                 >
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center mb-2.5 shadow-md transition-transform group-hover:scale-110"
@@ -244,11 +262,11 @@ export const T4OfficialBanner: React.FC<T4OfficialBannerProps> = ({
                   >
                     <Icon className="w-6 h-6" style={{ color: srv.color === '#0A2458' ? '#60A5FA' : srv.color }} />
                   </div>
-                  <span className="text-xs font-bold text-white group-hover:text-[#F5D061] transition-colors leading-tight">
-                    {srv.name}
+                  <span className={`text-xs font-bold text-white group-hover:text-[#F5D061] transition-colors leading-tight ${fontClass}`}>
+                    {language === 'UR' ? srv.urdu : language === 'AR' ? srv.arabic : srv.name}
                   </span>
-                  <span className="text-[10px] text-[#F5D061] font-serif mt-0.5">
-                    {srv.urdu}
+                  <span className={`text-[10px] text-[#F5D061] mt-0.5 ${fontClass}`}>
+                    {language === 'UR' ? srv.name : language === 'AR' ? srv.name : srv.urdu}
                   </span>
                 </button>
               );
@@ -276,18 +294,28 @@ export const T4OfficialBanner: React.FC<T4OfficialBannerProps> = ({
           </div>
 
           {/* Bottom Direct CTA Bar */}
-          <div className="mt-8 p-4 rounded-xl bg-gradient-to-r from-[#071F4A] via-[#0D3070] to-[#071F4A] border border-[#C29427]/40 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className={`mt-8 p-4 rounded-xl bg-gradient-to-r from-[#071F4A] via-[#0D3070] to-[#071F4A] border border-[#C29427]/40 flex flex-col md:flex-row items-center justify-between gap-4 ${fontClass}`}>
             <div className="flex items-center gap-3 text-center md:text-left">
               <div className="w-12 h-12 rounded-full bg-[#C29427]/20 border border-[#F5D061] flex items-center justify-center shrink-0">
                 <span className="text-lg font-black text-[#F5D061]">T4</span>
               </div>
               <div>
-                <div className="text-sm font-bold text-white flex items-center gap-2 justify-center md:justify-start">
-                  <span>Contact Manager: Muhammad Aamir Aziz</span>
-                  <span className="text-xs text-[#F5D061] font-serif">(محمد عامر عزیز)</span>
+                <div className={`text-sm font-bold text-white flex items-center gap-2 justify-center md:justify-start ${fontClass}`}>
+                  <span>
+                    {language === 'UR'
+                      ? 'رابطہ برائے بکنگ: محمد عامر عزیز'
+                      : language === 'AR'
+                      ? 'للتواصل والحجز: المدير العام محمد عامر عزيز'
+                      : 'Contact Manager: Muhammad Aamir Aziz'}
+                  </span>
+                  <span className={`text-xs text-[#F5D061] ${fontClass}`}>(محمد عامر عزیز)</span>
                 </div>
-                <div className="text-xs text-gray-300">
-                  Email: <span className="font-mono text-white">T4tickets@gmail.com</span> • Branches: Bariq, Al Majardah, Muhayil Asir, Abha
+                <div className={`text-xs text-gray-300 ${fontClass}`}>
+                  {language === 'UR'
+                    ? 'ای میل: T4tickets@gmail.com • برانچز: بارق، المجاردہ، محایل عسیر، ابہا'
+                    : language === 'AR'
+                    ? 'البريد: T4tickets@gmail.com • الفروع: بارق، المجاردة، محايل عسير، أبها'
+                    : 'Email: T4tickets@gmail.com • Branches: Bariq, Al Majardah, Muhayil Asir, Abha'}
                 </div>
               </div>
             </div>
@@ -297,30 +325,30 @@ export const T4OfficialBanner: React.FC<T4OfficialBannerProps> = ({
                 href="https://wa.me/966502674930?text=Hello%20Muhammad%20Aamir%20Aziz%2C%20I%20want%20to%20book%20via%20WhatsApp"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm shadow-lg shadow-[#25D366]/30 transition-all hover:scale-105"
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm shadow-lg shadow-[#25D366]/30 transition-all hover:scale-105 ${fontClass}`}
               >
-                <span>BOOK NOW VIA WHATSAPP (KSA)</span>
+                <span>{language === 'UR' ? 'واٹس ایپ پر فوری بکنگ (سعودیہ)' : language === 'AR' ? 'احجز الآن عبر واتساب (السعودية)' : 'BOOK NOW VIA WHATSAPP (KSA)'}</span>
               </a>
 
               <a
                 href="https://wa.me/923017355753?text=Hello%20T4%20Tickets%2C%20I%20want%20to%20inquire%20about%20flights"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm border border-white/20 transition-all"
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm border border-white/20 transition-all ${fontClass}`}
               >
-                <span>WhatsApp PK: <span dir="ltr" className="font-mono inline-block">+92 301 7355753</span></span>
+                <span>{language === 'UR' ? 'واٹس ایپ پاکستان: ' : language === 'AR' ? 'واتساب باكستان: ' : 'WhatsApp PK: '}<span dir="ltr" className="font-mono inline-block">+92 301 7355753</span></span>
               </a>
             </div>
           </div>
         </div>
 
         {/* Bottom Tagline Strip */}
-        <div className="py-2.5 bg-[#030B1A] text-center border-t border-[#C29427]/30 text-xs text-[#F5D061] font-bold tracking-wider flex items-center justify-center gap-4 flex-wrap">
-          <span>🛡️ TRUSTED TRAVEL PARTNER</span>
+        <div className={`py-2.5 bg-[#030B1A] text-center border-t border-[#C29427]/30 text-xs text-[#F5D061] font-bold tracking-wider flex items-center justify-center gap-4 flex-wrap ${fontClass}`}>
+          <span>{language === 'UR' ? '🛡️ مصدقہ و بااعتماد ٹریول پارٹنر' : language === 'AR' ? '🛡️ شريك السفر المعتمد والموثوق' : '🛡️ TRUSTED TRAVEL PARTNER'}</span>
           <span>•</span>
-          <span>🌐 WORLDWIDE DESTINATIONS</span>
+          <span>{language === 'UR' ? '🌐 دنیا بھر کے تمام فضائی مقامات' : language === 'AR' ? '🌐 وجهات سياحية في جميع أنحاء العالم' : '🌐 WORLDWIDE DESTINATIONS'}</span>
           <span>•</span>
-          <span>🕒 24/7 CUSTOMER SUPPORT</span>
+          <span>{language === 'UR' ? '🕒 24/7 ہمہ وقت کسٹمر سپورٹ' : language === 'AR' ? '🕒 خدمة عملاء ودعم متواصل 24/7' : '🕒 24/7 CUSTOMER SUPPORT'}</span>
         </div>
       </div>
 

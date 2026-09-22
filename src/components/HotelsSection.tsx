@@ -3,6 +3,7 @@ import { Building2, Star, MapPin, Check, Wifi, Sparkles, ArrowRight } from 'luci
 import { CurrencyCode, HotelItem } from '../types';
 import { HOTELS } from '../data/travelData';
 import { formatCurrency } from '../utils/formatters';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HotelsSectionProps {
   currency: CurrencyCode;
@@ -10,21 +11,92 @@ interface HotelsSectionProps {
 }
 
 export const HotelsSection: React.FC<HotelsSectionProps> = ({ currency, onBookHotel }) => {
+  const { language } = useLanguage();
+  const fontClass = language === 'UR' ? 'font-nastaliq' : language === 'AR' ? 'font-arabic' : 'font-sans';
+
+  const getLocalizedTag = (tag: string) => {
+    if (language === 'AR') {
+      const map: Record<string, string> = {
+        'Haram Front': 'إطلالة مباشرة على الحرم',
+        'Clock Tower': 'برج الساعة الملكي',
+        'Burj Al Arab View': 'إطلالة برج العرب',
+        'Bosphorus View': 'إطلالة البوسفور'
+      };
+      return map[tag] || tag;
+    }
+    if (language === 'UR') {
+      const map: Record<string, string> = {
+        'Haram Front': 'حرم کے بالکل سامنے',
+        'Clock Tower': 'کلاک ٹاور مکہ',
+        'Burj Al Arab View': 'برج العرب ویو',
+        'Bosphorus View': 'باسفورس ویو'
+      };
+      return map[tag] || tag;
+    }
+    return tag;
+  };
+
+  const getLocalizedAmenity = (amenity: string) => {
+    if (language === 'AR') {
+      const map: Record<string, string> = {
+        'Free WiFi': 'واي فاي مجاني',
+        'Breakfast Included': 'شامل الإفطار',
+        'Haram View': 'إطلالة على الحرم',
+        'Private Beach': 'شاطئ خاص',
+        'Infinity Pool': 'مسبح لامتناهي',
+        'Butler Service': 'خدمة المساعد الشخصي',
+        'Spa': 'سبا ونادي صحي',
+        'Historical': 'موقع تاريخي',
+        'Near Metro': 'قريب من المترو'
+      };
+      return map[amenity] || amenity;
+    }
+    if (language === 'UR') {
+      const map: Record<string, string> = {
+        'Free WiFi': 'مفت وائی فائی',
+        'Breakfast Included': 'ناشتہ شامل',
+        'Haram View': 'حرم ویو',
+        'Private Beach': 'نجی ساحل',
+        'Infinity Pool': 'انفینٹی پول',
+        'Butler Service': 'بٹلر سروس',
+        'Spa': 'اسپا و ہیلتھ کلب',
+        'Historical': 'تاریخی مقام',
+        'Near Metro': 'میٹرو کے قریب'
+      };
+      return map[amenity] || amenity;
+    }
+    return amenity;
+  };
+
   return (
-    <section id="hotels-section" className="py-20 bg-white">
+    <section id="hotels-section" className={`py-20 bg-white ${fontClass}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#071A3D]/5 text-[#071A3D] text-xs font-bold uppercase tracking-wider mb-3">
+            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#071A3D]/5 text-[#071A3D] text-xs font-bold uppercase tracking-wider mb-3 ${fontClass}`}>
               <Building2 className="w-3.5 h-3.5 text-[#E53935]" />
-              <span>5-Star Luxury Accommodations</span>
+              <span>
+                {language === 'UR'
+                  ? '5-اسٹار پرتعیش قیام و ہوٹلز'
+                  : language === 'AR'
+                  ? 'إقامات فندقية 5 نجوم فاخرة'
+                  : '5-Star Luxury Accommodations'}
+              </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-[#071A3D] font-heading tracking-tight">
-              Curated World-Class Hotels & Resorts
+            <h2 className={`text-3xl sm:text-4xl font-black text-[#071A3D] font-heading tracking-tight ${fontClass}`}>
+              {language === 'UR'
+                ? 'مکہ، مدینہ اور عالمی معیاری ہوٹلز و ریزورٹس'
+                : language === 'AR'
+                ? 'فنادق ومنتجعات عالمية مختارة بعناية'
+                : 'Curated World-Class Hotels & Resorts'}
             </h2>
-            <p className="mt-2 text-sm text-gray-500">
-              Handpicked luxury properties offering verified guest reviews, complimentary upgrades, and flexible checkout.
+            <p className={`mt-2 text-sm text-gray-500 ${fontClass}`}>
+              {language === 'UR'
+                ? 'تصدیق شدہ مسافروں کے جائزوں، خصوصی اپ گریڈز اور لچکدار چیک آؤٹ کے ساتھ شاندار قیام۔'
+                : language === 'AR'
+                ? 'أرقى الفنادق المطلة على الحرمين الشريفين وأشهر العواصم العالمية مع ضمان أفضل الأسعار.'
+                : 'Handpicked luxury properties offering verified guest reviews, complimentary upgrades, and flexible checkout.'}
             </p>
           </div>
         </div>
@@ -46,8 +118,8 @@ export const HotelsSection: React.FC<HotelsSectionProps> = ({ currency, onBookHo
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-                  <span className="absolute top-3 left-3 bg-[#071A3D]/90 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-lg">
-                    {hotel.tag}
+                  <span className={`absolute top-3 left-3 bg-[#071A3D]/90 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-lg ${fontClass}`}>
+                    {getLocalizedTag(hotel.tag)}
                   </span>
 
                   <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs">
@@ -75,9 +147,9 @@ export const HotelsSection: React.FC<HotelsSectionProps> = ({ currency, onBookHo
                     {hotel.amenities.slice(0, 3).map((amenity, i) => (
                       <span
                         key={i}
-                        className="text-[10px] font-medium bg-gray-100 text-gray-700 px-2 py-0.5 rounded"
+                        className={`text-[10px] font-medium bg-gray-100 text-gray-700 px-2 py-0.5 rounded ${fontClass}`}
                       >
-                        {amenity}
+                        {getLocalizedAmenity(amenity)}
                       </span>
                     ))}
                   </div>
@@ -91,17 +163,19 @@ export const HotelsSection: React.FC<HotelsSectionProps> = ({ currency, onBookHo
                     <div className="text-[10px] text-gray-400 line-through">
                       {formatCurrency(hotel.originalPriceUSD, currency)}
                     </div>
-                    <div className="text-lg font-black text-[#071A3D]">
+                    <div className={`text-lg font-black text-[#071A3D] ${fontClass}`}>
                       {formatCurrency(hotel.pricePerNightUSD, currency)}
-                      <span className="text-[11px] font-normal text-gray-500"> / night</span>
+                      <span className={`text-[11px] font-normal text-gray-500 ${fontClass}`}>
+                        {language === 'UR' ? ' / فی رات' : language === 'AR' ? ' / ليلة' : ' / night'}
+                      </span>
                     </div>
                   </div>
 
                   <button
                     onClick={() => onBookHotel(hotel)}
-                    className="px-4 py-2 rounded-xl bg-[#071A3D] hover:bg-[#E53935] text-white text-xs font-bold transition-colors shadow-sm"
+                    className={`px-4 py-2 rounded-xl bg-[#071A3D] hover:bg-[#E53935] text-white text-xs font-bold transition-colors shadow-sm cursor-pointer ${fontClass}`}
                   >
-                    Book Room
+                    {language === 'UR' ? 'کمرہ بک کریں' : language === 'AR' ? 'احجز الغرفة' : 'Book Room'}
                   </button>
                 </div>
               </div>

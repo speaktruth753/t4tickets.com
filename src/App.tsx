@@ -5,6 +5,7 @@ import { LogoColorTheme } from './components/T4Logo';
 import { WhatsAppIcon } from './components/WhatsAppIcon';
 import { CheckCircle2 } from 'lucide-react';
 import { initGoogleAnalytics, trackFloatingWhatsAppDirectClick } from './utils/analytics';
+import { LanguageProvider } from './context/LanguageContext';
 
 // Dynamic imports (Code-splitting for non-essential below-the-fold sections)
 const FeaturedServices = lazy(() =>
@@ -76,8 +77,21 @@ const SectionSkeleton = () => (
 
 export default function App() {
   const [currency, setCurrency] = useState<CurrencyCode>('SAR');
-  const [language, setLanguage] = useState<LanguageCode>('EN');
+  const [language, setLanguage] = useState<LanguageCode>(() => {
+    try {
+      const saved = localStorage.getItem('t4_app_lang');
+      if (saved === 'AR' || saved === 'UR' || saved === 'EN') return saved;
+    } catch (_) {}
+    return 'AR'; // Default to Arabic / multilingual for Saudi & Gulf native clients
+  });
   const [brandColor, setBrandColor] = useState<LogoColorTheme>('gold');
+
+  const handleLanguageChange = (newLang: LanguageCode) => {
+    setLanguage(newLang);
+    try {
+      localStorage.setItem('t4_app_lang', newLang);
+    } catch (_) {}
+  };
 
   // Modals state
   const [flightModalOpen, setFlightModalOpen] = useState(false);
@@ -252,31 +266,32 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F7F8FA] text-[#1B1B1B]">
-      {/* Toast Notification Banner */}
-      {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#071A3D] text-white px-5 py-3 rounded-2xl shadow-2xl border border-white/20 flex items-center gap-3 animate-bounce">
-          <CheckCircle2 className="w-5 h-5 text-[#16A34A]" />
-          <span className="text-xs font-bold">{toastMessage}</span>
-        </div>
-      )}
+    <LanguageProvider currentLanguage={language} onLanguageChange={handleLanguageChange}>
+      <div className="min-h-screen flex flex-col bg-[#F7F8FA] text-[#1B1B1B]">
+        {/* Toast Notification Banner */}
+        {toastMessage && (
+          <div className="fixed bottom-6 right-6 z-50 bg-[#071A3D] text-white px-5 py-3 rounded-2xl shadow-2xl border border-white/20 flex items-center gap-3 animate-bounce">
+            <CheckCircle2 className="w-5 h-5 text-[#16A34A]" />
+            <span className="text-xs font-bold">{toastMessage}</span>
+          </div>
+        )}
 
-      {/* Header */}
-      <Header
-        currentCurrency={currency}
-        onCurrencyChange={setCurrency}
-        currentLanguage={language}
-        onLanguageChange={setLanguage}
-        brandColor={brandColor}
-        onBrandColorChange={setBrandColor}
-        onOpenAuth={handleOpenAuth}
-        onNavigate={handleNavigate}
-        onOpenInquiry={handleOpenInquiry}
-        onOpenAssistant={(tab) => {
-          setAssistantInitialTab(tab || 'chat');
-          setAssistantModalOpen(true);
-        }}
-      />
+        {/* Header */}
+        <Header
+          currentCurrency={currency}
+          onCurrencyChange={setCurrency}
+          currentLanguage={language}
+          onLanguageChange={handleLanguageChange}
+          brandColor={brandColor}
+          onBrandColorChange={setBrandColor}
+          onOpenAuth={handleOpenAuth}
+          onNavigate={handleNavigate}
+          onOpenInquiry={handleOpenInquiry}
+          onOpenAssistant={(tab) => {
+            setAssistantInitialTab(tab || 'chat');
+            setAssistantModalOpen(true);
+          }}
+        />
 
       {/* Main Content Sections - Fast, Light, and Clean */}
       <main className="flex-1">
@@ -403,6 +418,7 @@ export default function App() {
           />
         </Suspense>
       )}
-    </div>
+      </div>
+    </LanguageProvider>
   );
 }

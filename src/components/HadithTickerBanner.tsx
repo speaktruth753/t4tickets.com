@@ -212,6 +212,7 @@ export const HadithTickerBanner: React.FC = () => {
       {/* Hadith Ribbon Bar - Clean, Edge-to-Edge with enlarged typography */}
       <div
         id="hadith-ticker-banner"
+        dir="ltr"
         onDoubleClick={() => setAdminModalOpen(true)}
         className={`relative w-full ${activeTheme.bgGradient} text-white border-b ${activeTheme.borderClass} shadow-md select-none z-40 h-11 sm:h-12 flex items-center overflow-hidden transition-colors duration-500`}
         title="احادیث نبویہ ﷺ و دعائے حصن المسلم - ٹکر روکنے کے لیے ماؤس اوپر رکھیں، کاپی کے لیے کلک کریں (ایڈمن کے لیے ڈبل کلک کریں)"
@@ -239,6 +240,7 @@ export const HadithTickerBanner: React.FC = () => {
 
         {/* Main Continuous Marquee Track */}
         <div
+          dir="ltr"
           className="w-full h-full overflow-hidden relative flex items-center"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}

@@ -21,6 +21,7 @@ import {
 import confetti from 'canvas-confetti';
 import { CurrencyCode, FlightOption, FlightSearchQuery } from '../types';
 import { formatCurrency } from '../utils/formatters';
+import { useLanguage } from '../context/LanguageContext';
 
 interface FlightSearchResultsModalProps {
   isOpen: boolean;
@@ -37,6 +38,9 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
   currency,
   flightResults
 }) => {
+  const { language, isRTL } = useLanguage();
+  const fontClass = language === 'UR' ? 'font-nastaliq' : language === 'AR' ? 'font-arabic' : 'font-sans';
+
   const [selectedFlight, setSelectedFlight] = useState<FlightOption | null>(null);
   const [bookingStep, setBookingStep] = useState<'results' | 'passengerForm' | 'ticketConfirmed'>('results');
   const [filterStops, setFilterStops] = useState<'all' | 'direct'>('all');
@@ -108,7 +112,7 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
   return (
     <div
       id="flight-search-results-modal"
-      className="fixed inset-0 z-50 overflow-y-auto bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-6"
+      className={`fixed inset-0 z-50 overflow-y-auto bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 ${fontClass}`}
     >
       <div className="relative w-full max-w-4xl bg-[#F7F8FA] rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden border border-gray-200 my-8">
         {/* Header Bar */}
@@ -122,13 +126,13 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
                 <h3 className="text-lg sm:text-xl font-black font-heading tracking-tight">
                   {searchQuery.from.city} ({searchQuery.from.code})
                 </h3>
-                <ArrowRight className="w-4 h-4 text-[#E53935]" />
+                <ArrowRight className={`w-4 h-4 text-[#E53935] ${isRTL ? 'rotate-180' : ''}`} />
                 <h3 className="text-lg sm:text-xl font-black font-heading tracking-tight">
                   {searchQuery.to.city} ({searchQuery.to.code})
                 </h3>
               </div>
-              <p className="text-xs text-gray-300">
-                {searchQuery.departureDate} • {searchQuery.passengers.adults} Adult(s) •{' '}
+              <p className={`text-xs text-gray-300 ${fontClass}`}>
+                {searchQuery.departureDate} • {searchQuery.passengers.adults} {language === 'UR' ? 'مسافر' : language === 'AR' ? 'مسافرين' : 'Adult(s)'} •{' '}
                 <span className="capitalize">{searchQuery.cabinClass}</span>
               </p>
             </div>
@@ -136,7 +140,7 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-gray-200 transition-colors"
+            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-gray-200 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -149,55 +153,61 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
             <div className="bg-white p-3 rounded-xl border border-gray-200 flex flex-wrap items-center justify-between gap-3 text-xs">
               <div className="flex items-center gap-2">
                 <Filter className="w-4 h-4 text-[#071A3D]" />
-                <span className="font-bold text-gray-700">Filter Flights:</span>
+                <span className="font-bold text-gray-700">
+                  {language === 'UR' ? 'فلٹرز:' : language === 'AR' ? 'تصفية الرحلات:' : 'Filter Flights:'}
+                </span>
                 <button
                   onClick={() => setFilterStops('all')}
-                  className={`px-3 py-1 rounded-lg font-semibold transition-colors ${
+                  className={`px-3 py-1 rounded-lg font-semibold transition-colors cursor-pointer ${
                     filterStops === 'all' ? 'bg-[#071A3D] text-white' : 'bg-gray-100 text-gray-600'
                   }`}
                 >
-                  All Flights ({flightResults.length})
+                  {language === 'UR' ? `تمام پروازیں (${flightResults.length})` : language === 'AR' ? `جميع الرحلات (${flightResults.length})` : `All Flights (${flightResults.length})`}
                 </button>
                 <button
                   onClick={() => setFilterStops('direct')}
-                  className={`px-3 py-1 rounded-lg font-semibold transition-colors ${
+                  className={`px-3 py-1 rounded-lg font-semibold transition-colors cursor-pointer ${
                     filterStops === 'direct' ? 'bg-[#071A3D] text-white' : 'bg-gray-100 text-gray-600'
                   }`}
                 >
-                  Direct Only
+                  {language === 'UR' ? 'صرف براہ راست (ڈائریکٹ)' : language === 'AR' ? 'رحلات مباشرة فقط' : 'Direct Only'}
                 </button>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-gray-500 font-medium">Sort By:</span>
+                <span className="text-gray-500 font-medium">
+                  {language === 'UR' ? 'ترتیب:' : language === 'AR' ? 'ترتيب حسب:' : 'Sort By:'}
+                </span>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as 'price' | 'duration')}
-                  className="bg-gray-100 border-none font-bold text-gray-800 rounded-lg px-2 py-1 outline-none"
+                  className="bg-gray-100 border-none font-bold text-gray-800 rounded-lg px-2 py-1 outline-none cursor-pointer"
                 >
-                  <option value="price">Lowest Price</option>
-                  <option value="duration">Fastest Route</option>
+                  <option value="price">{language === 'UR' ? 'کم ترین قیمت' : language === 'AR' ? 'الأقل سعراً' : 'Lowest Price'}</option>
+                  <option value="duration">{language === 'UR' ? 'تیز ترین سفر' : language === 'AR' ? 'الأسرع وقتاً' : 'Fastest Route'}</option>
                 </select>
               </div>
 
               {/* Quick Airline Filter Chips */}
               <div className="w-full flex items-center gap-1.5 overflow-x-auto pt-2 border-t border-gray-100 scrollbar-none">
-                <span className="text-[11px] font-bold text-gray-500 shrink-0">Airline:</span>
+                <span className="text-[11px] font-bold text-gray-500 shrink-0">
+                  {language === 'UR' ? 'ایئر لائن:' : language === 'AR' ? 'شركة الطيران:' : 'Airline:'}
+                </span>
                 <button
                   onClick={() => setFilterAirline('all')}
-                  className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold transition-all ${
+                  className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold transition-all cursor-pointer ${
                     filterAirline === 'all'
                       ? 'bg-[#E53935] text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
-                  All ({flightResults.length})
+                  {language === 'UR' ? `سب (${flightResults.length})` : language === 'AR' ? `الكل (${flightResults.length})` : `All (${flightResults.length})`}
                 </button>
                 {uniqueAirlines.map((airline) => (
                   <button
                     key={airline}
                     onClick={() => setFilterAirline(airline)}
-                    className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold transition-all shrink-0 ${
+                    className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold transition-all shrink-0 cursor-pointer ${
                       filterAirline.toLowerCase() === airline.toLowerCase()
                         ? 'bg-[#E53935] text-white'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -233,7 +243,7 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
 
                     {/* Flight Timing & Stops */}
                     <div className="flex items-center gap-4 sm:gap-8 flex-1 justify-center">
-                      <div className="text-left">
+                      <div className={isRTL ? 'text-right' : 'text-left'}>
                         <div className="text-lg font-extrabold text-[#071A3D]">{flight.departureTime}</div>
                         <div className="text-xs font-semibold text-gray-600">{searchQuery.from.code}</div>
                         <div className="text-[10px] text-gray-400">{searchQuery.from.city}</div>
@@ -247,7 +257,7 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
                         <div className="relative w-full flex items-center">
                           <div className="w-2 h-2 rounded-full bg-[#071A3D]" />
                           <div className="h-[2px] w-full bg-gray-300 relative">
-                            <Plane className="w-3.5 h-3.5 text-[#E53935] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                            <Plane className={`w-3.5 h-3.5 text-[#E53935] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isRTL ? 'rotate-180' : ''}`} />
                           </div>
                           <div className="w-2 h-2 rounded-full bg-[#E53935]" />
                         </div>
@@ -256,11 +266,21 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
                             flight.stops === 0 ? 'text-[#16A34A]' : 'text-amber-600'
                           }`}
                         >
-                          {flight.stops === 0 ? 'Non-Stop Direct' : `1 Stop (${flight.stopoverCity})`}
+                          {flight.stops === 0
+                            ? language === 'UR'
+                              ? 'براہ راست (نان اسٹاپ)'
+                              : language === 'AR'
+                              ? 'مباشر (بدون توقف)'
+                              : 'Non-Stop Direct'
+                            : language === 'UR'
+                            ? `1 اسٹاپ (${flight.stopoverCity})`
+                            : language === 'AR'
+                            ? `توقف 1 (${flight.stopoverCity})`
+                            : `1 Stop (${flight.stopoverCity})`}
                         </span>
                       </div>
 
-                      <div className="text-right">
+                      <div className={isRTL ? 'text-left' : 'text-right'}>
                         <div className="text-lg font-extrabold text-[#071A3D]">{flight.arrivalTime}</div>
                         <div className="text-xs font-semibold text-gray-600">{searchQuery.to.code}</div>
                         <div className="text-[10px] text-gray-400">{searchQuery.to.city}</div>
@@ -268,9 +288,11 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
                     </div>
 
                     {/* Baggage & Booking CTA */}
-                    <div className="flex sm:flex-col items-end justify-between sm:justify-center border-t sm:border-t-0 sm:border-l border-gray-100 pt-3 sm:pt-0 sm:pl-6 gap-2 min-w-[150px]">
-                      <div className="text-left sm:text-right">
-                        <div className="text-xs text-gray-400">Total per traveler</div>
+                    <div className={`flex sm:flex-col items-end justify-between sm:justify-center border-t sm:border-t-0 ${isRTL ? 'sm:border-r sm:pr-6' : 'sm:border-l sm:pl-6'} border-gray-100 pt-3 sm:pt-0 gap-2 min-w-[150px]`}>
+                      <div className={`text-left ${isRTL ? 'sm:text-left' : 'sm:text-right'}`}>
+                        <div className="text-xs text-gray-400">
+                          {language === 'UR' ? 'کل کرایہ فی مسافر' : language === 'AR' ? 'السعر الإجمالي للشخص' : 'Total per traveler'}
+                        </div>
                         <div className="text-xl sm:text-2xl font-black text-[#E53935]">
                           {formatCurrency(flight.priceUSD, currency)}
                         </div>
@@ -283,10 +305,10 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleSelectFlight(flight)}
-                          className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#D62828] to-[#E53935] hover:brightness-110 text-white font-bold text-xs shadow-md shadow-[#D62828]/25 flex items-center gap-1.5 transition-all"
+                          className={`px-4 py-2 rounded-xl bg-gradient-to-r from-[#D62828] to-[#E53935] hover:brightness-110 text-white font-bold text-xs shadow-md shadow-[#D62828]/25 flex items-center gap-1.5 transition-all cursor-pointer ${fontClass}`}
                         >
-                          <span>Select</span>
-                          <ChevronRight className="w-3.5 h-3.5" />
+                          <span>{language === 'UR' ? 'منتخب کریں' : language === 'AR' ? 'اختيار' : 'Select'}</span>
+                          <ChevronRight className={`w-3.5 h-3.5 ${isRTL ? 'rotate-180' : ''}`} />
                         </button>
                         <a
                           href={getWhatsAppFlightLink(flight)}
@@ -308,17 +330,25 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
 
         {/* STEP 2: Passenger Details Form */}
         {bookingStep === 'passengerForm' && selectedFlight && (
-          <div className="p-4 sm:p-6">
+          <div className={`p-4 sm:p-6 ${fontClass}`}>
             <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
               <div>
-                <span className="text-xs font-bold text-[#E53935] uppercase tracking-wider">Step 2 of 2</span>
-                <h4 className="text-lg font-extrabold text-[#071A3D]">Lead Passenger & Contact Information</h4>
+                <span className="text-xs font-bold text-[#E53935] uppercase tracking-wider">
+                  {language === 'UR' ? 'مرحلہ 2 از 2' : language === 'AR' ? 'الخطوة 2 من 2' : 'Step 2 of 2'}
+                </span>
+                <h4 className="text-lg font-extrabold text-[#071A3D]">
+                  {language === 'UR'
+                    ? 'مسافر کی بنیادی معلومات اور رابطہ'
+                    : language === 'AR'
+                    ? 'بيانات المسافر الرئيسي ومعلومات الاتصال'
+                    : 'Lead Passenger & Contact Information'}
+                </h4>
               </div>
               <button
                 onClick={handleReset}
-                className="text-xs text-gray-500 hover:text-gray-800 underline font-semibold"
+                className="text-xs text-gray-500 hover:text-gray-800 underline font-semibold cursor-pointer"
               >
-                Change Flight
+                {language === 'UR' ? 'فلائٹ تبدیل کریں' : language === 'AR' ? 'تغيير الرحلة' : 'Change Flight'}
               </button>
             </div>
 
@@ -334,7 +364,7 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
                 </span>
               </div>
               <div className="font-bold text-[#E53935] text-sm">
-                {formatCurrency(selectedFlight.priceUSD, currency)} (All Taxes Included)
+                {formatCurrency(selectedFlight.priceUSD, currency)} ({language === 'UR' ? 'تمام ٹیکسز شامل ہیں' : language === 'AR' ? 'شامل كافة الضرائب' : 'All Taxes Included'})
               </div>
             </div>
 
@@ -342,26 +372,34 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-gray-700 mb-1">
-                    Full Name (As shown in Passport / ID) *
+                    {language === 'UR'
+                      ? 'مکمل نام (پاسپورٹ / شناختی کارڈ کے مطابق) *'
+                      : language === 'AR'
+                      ? 'الاسم الكامل (كما في جواز السفر / الهوية) *'
+                      : 'Full Name (As shown in Passport / ID) *'}
                   </label>
                   <div className="flex items-center p-2.5 rounded-xl bg-white border border-gray-300">
-                    <User className="w-4 h-4 text-gray-400 mr-2" />
+                    <User className={`w-4 h-4 text-gray-400 ${isRTL ? 'ml-2' : 'mr-2'}`} />
                     <input
                       type="text"
                       required
                       value={passengerName}
                       onChange={(e) => setPassengerName(e.target.value)}
-                      className="w-full text-xs font-semibold text-[#071A3D] outline-none"
+                      className={`w-full text-xs font-semibold text-[#071A3D] outline-none ${fontClass}`}
                     />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-gray-700 mb-1">
-                    Passport Number / National ID *
+                    {language === 'UR'
+                      ? 'پاسپورٹ نمبر / قومی شناختی نمبر *'
+                      : language === 'AR'
+                      ? 'رقم الجواز / رقم الهوية الوطنية *'
+                      : 'Passport Number / National ID *'}
                   </label>
                   <div className="flex items-center p-2.5 rounded-xl bg-white border border-gray-300">
-                    <ShieldCheck className="w-4 h-4 text-gray-400 mr-2" />
+                    <ShieldCheck className={`w-4 h-4 text-gray-400 ${isRTL ? 'ml-2' : 'mr-2'}`} />
                     <input
                       type="text"
                       required
@@ -373,9 +411,11 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Email Address for e-Ticket *</label>
+                  <label className="block text-xs font-bold text-gray-700 mb-1">
+                    {language === 'UR' ? 'ای میل برائے ای-ٹکٹ *' : language === 'AR' ? 'البريد الإلكتروني لإرسال التذكرة *' : 'Email Address for e-Ticket *'}
+                  </label>
                   <div className="flex items-center p-2.5 rounded-xl bg-white border border-gray-300">
-                    <Mail className="w-4 h-4 text-gray-400 mr-2" />
+                    <Mail className={`w-4 h-4 text-gray-400 ${isRTL ? 'ml-2' : 'mr-2'}`} />
                     <input
                       type="email"
                       required
@@ -387,15 +427,17 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Mobile Contact (WhatsApp) *</label>
+                  <label className="block text-xs font-bold text-gray-700 mb-1">
+                    {language === 'UR' ? 'موبائل نمبر (واٹس ایپ) *' : language === 'AR' ? 'رقم الجوال (واتساب) *' : 'Mobile Contact (WhatsApp) *'}
+                  </label>
                   <div className="flex items-center p-2.5 rounded-xl bg-white border border-gray-300">
-                    <Phone className="w-4 h-4 text-gray-400 mr-2" />
+                    <Phone className={`w-4 h-4 text-gray-400 ${isRTL ? 'ml-2' : 'mr-2'}`} />
                     <input
                       type="tel"
                       required
                       value={passengerPhone}
                       onChange={(e) => setPassengerPhone(e.target.value)}
-                      className="w-full text-xs font-semibold text-[#071A3D] outline-none"
+                      className="w-full text-xs font-semibold text-[#071A3D] outline-none font-mono"
                     />
                   </div>
                 </div>
@@ -406,14 +448,24 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2 text-xs font-bold text-[#071A3D]">
                     <CreditCard className="w-4 h-4 text-[#16A34A]" />
-                    <span>Payment Method: Instant Agency Ticketing (Mada / Visa / Mastercard)</span>
+                    <span>
+                      {language === 'UR'
+                        ? 'طریقہ ادائیگی: باضابطہ ایجنسی ٹکٹنگ (مدیٰ / ویزا / ماسٹر کارڈ)'
+                        : language === 'AR'
+                        ? 'طريقة السداد: إصدار فوري معتمد (مدى / فيزا / ماستركارد)'
+                        : 'Payment Method: Instant Agency Ticketing (Mada / Visa / Mastercard)'}
+                    </span>
                   </div>
                   <span className="text-[10px] bg-green-100 text-green-800 font-bold px-2 py-0.5 rounded">
-                    Verified Gateway
+                    {language === 'UR' ? 'محفوظ گیٹ وے' : language === 'AR' ? 'بوابة آمنة وموثقة' : 'Verified Gateway'}
                   </span>
                 </div>
                 <p className="text-[11px] text-gray-500">
-                  Instant electronic ticket confirmation will be generated and issued under IATA accredited booking code.
+                  {language === 'UR'
+                    ? 'فوری الیکٹرانک ٹکٹ جاری کیا جائے گا اور ایاٹا کے منظور شدہ بکنگ کوڈ کے تحت سسٹم میں محفوظ ہوگا۔'
+                    : language === 'AR'
+                    ? 'سيتم إصدار التذكرة الإلكترونية وتأكيد الحجز فوراً عبر أنظمة الحجز العالمية المعتمدة إياتا.'
+                    : 'Instant electronic ticket confirmation will be generated and issued under IATA accredited booking code.'}
                 </p>
               </div>
 
@@ -421,15 +473,15 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="px-4 py-2.5 rounded-xl border border-gray-300 text-xs font-bold text-gray-700 hover:bg-gray-100"
+                  className="px-4 py-2.5 rounded-xl border border-gray-300 text-xs font-bold text-gray-700 hover:bg-gray-100 cursor-pointer"
                 >
-                  Back
+                  {language === 'UR' ? 'واپس' : language === 'AR' ? 'رجوع' : 'Back'}
                 </button>
                 <button
                   type="submit"
-                  className="px-8 py-3 rounded-xl bg-gradient-to-r from-[#D62828] to-[#E53935] hover:brightness-110 text-white font-extrabold text-sm shadow-lg shadow-[#D62828]/30 flex items-center gap-2"
+                  className={`px-8 py-3 rounded-xl bg-gradient-to-r from-[#D62828] to-[#E53935] hover:brightness-110 text-white font-extrabold text-sm shadow-lg shadow-[#D62828]/30 flex items-center gap-2 cursor-pointer ${fontClass}`}
                 >
-                  <span>Complete Booking & Issue Ticket</span>
+                  <span>{language === 'UR' ? 'بکنگ مکمل کریں اور ٹکٹ جاری کریں' : language === 'AR' ? 'إتمام الحجز وإصدار التذكرة' : 'Complete Booking & Issue Ticket'}</span>
                   <CheckCircle2 className="w-4 h-4" />
                 </button>
               </div>
@@ -439,14 +491,24 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
 
         {/* STEP 3: Confirmed e-Ticket / Boarding Pass */}
         {bookingStep === 'ticketConfirmed' && selectedFlight && (
-          <div className="p-4 sm:p-8">
+          <div className={`p-4 sm:p-8 ${fontClass}`}>
             <div className="text-center mb-6">
               <div className="w-14 h-14 rounded-full bg-green-100 text-[#16A34A] flex items-center justify-center mx-auto mb-3">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
-              <h4 className="text-2xl font-black text-[#071A3D] font-heading">Booking Confirmed & e-Ticket Issued!</h4>
+              <h4 className="text-2xl font-black text-[#071A3D] font-heading">
+                {language === 'UR'
+                  ? 'مبارک ہو! بکنگ تصدیق شدہ اور ای-ٹکٹ جاری ہو گیا'
+                  : language === 'AR'
+                  ? 'تم تأكيد الحجز وإصدار التذكرة الإلكترونية بنجاح!'
+                  : 'Booking Confirmed & e-Ticket Issued!'}
+              </h4>
               <p className="text-xs text-gray-500 mt-1">
-                Your flight itinerary has been registered with {selectedFlight.airline}. A copy has been dispatched to {passengerEmail}.
+                {language === 'UR'
+                  ? `آپ کی پرواز ${selectedFlight.airline} کے سسٹم میں محفوظ ہو چکی ہے۔ ایک کاپی ${passengerEmail} پر بھیج دی گئی ہے۔`
+                  : language === 'AR'
+                  ? `تم تسجيل بيانات رحلتك بنجاح لدى ${selectedFlight.airline}، وأرسلت نسخة إلى ${passengerEmail}.`
+                  : `Your flight itinerary has been registered with ${selectedFlight.airline}. A copy has been dispatched to ${passengerEmail}.`}
               </p>
             </div>
 
@@ -458,10 +520,14 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
                   <div className="w-7 h-7 rounded bg-[#E53935] flex items-center justify-center text-white font-black text-xs">
                     T4
                   </div>
-                  <span className="font-extrabold text-sm tracking-wider">T4TICKETS BOARDING PASS</span>
+                  <span className="font-extrabold text-sm tracking-wider">
+                    {language === 'UR' ? 'ٹی فور ٹکٹس بورڈنگ پاس' : language === 'AR' ? 'بطاقة صعود الطائرة - تي فور' : 'T4TICKETS BOARDING PASS'}
+                  </span>
                 </div>
                 <div className="text-right">
-                  <div className="text-[10px] text-gray-300">BOOKING REFERENCE (PNR)</div>
+                  <div className="text-[10px] text-gray-300">
+                    {language === 'UR' ? 'بکنگ ریفرنس (پی این آر)' : language === 'AR' ? 'رقم الحجز المرجعي (PNR)' : 'BOOKING REFERENCE (PNR)'}
+                  </div>
                   <div className="text-sm font-mono font-black text-[#E53935] tracking-widest">{pnrCode}</div>
                 </div>
               </div>
@@ -469,30 +535,42 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
               {/* Pass Details */}
               <div className="p-6 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
                 <div>
-                  <span className="text-gray-400 text-[10px] uppercase font-bold block">Passenger</span>
+                  <span className="text-gray-400 text-[10px] uppercase font-bold block">
+                    {language === 'UR' ? 'مسافر' : language === 'AR' ? 'المسافر' : 'Passenger'}
+                  </span>
                   <span className="font-extrabold text-gray-900">{passengerName}</span>
                 </div>
                 <div>
-                  <span className="text-gray-400 text-[10px] uppercase font-bold block">Flight / Carrier</span>
+                  <span className="text-gray-400 text-[10px] uppercase font-bold block">
+                    {language === 'UR' ? 'فلائٹ / ایئرلائن' : language === 'AR' ? 'الرحلة / الناقل' : 'Flight / Carrier'}
+                  </span>
                   <span className="font-extrabold text-gray-900">{selectedFlight.flightNumber}</span>
                 </div>
                 <div>
-                  <span className="text-gray-400 text-[10px] uppercase font-bold block">Class</span>
+                  <span className="text-gray-400 text-[10px] uppercase font-bold block">
+                    {language === 'UR' ? 'کلاس' : language === 'AR' ? 'الدرجة' : 'Class'}
+                  </span>
                   <span className="font-extrabold text-gray-900 capitalize">{selectedFlight.cabinClass}</span>
                 </div>
                 <div>
-                  <span className="text-gray-400 text-[10px] uppercase font-bold block">Baggage Allowance</span>
+                  <span className="text-gray-400 text-[10px] uppercase font-bold block">
+                    {language === 'UR' ? 'سامان کی حد' : language === 'AR' ? 'الوزن المسموح' : 'Baggage Allowance'}
+                  </span>
                   <span className="font-extrabold text-gray-900">{selectedFlight.baggage}</span>
                 </div>
 
                 <div className="col-span-2 sm:col-span-2 pt-3 border-t border-gray-100">
-                  <span className="text-gray-400 text-[10px] uppercase font-bold block">From</span>
+                  <span className="text-gray-400 text-[10px] uppercase font-bold block">
+                    {language === 'UR' ? 'کہاں سے' : language === 'AR' ? 'من' : 'From'}
+                  </span>
                   <span className="text-lg font-black text-[#071A3D]">{selectedFlight.from.city} ({selectedFlight.from.code})</span>
                   <p className="text-[11px] text-gray-500">{selectedFlight.departureTime} • {searchQuery.departureDate}</p>
                 </div>
 
                 <div className="col-span-2 sm:col-span-2 pt-3 border-t border-gray-100">
-                  <span className="text-gray-400 text-[10px] uppercase font-bold block">To</span>
+                  <span className="text-gray-400 text-[10px] uppercase font-bold block">
+                    {language === 'UR' ? 'کہاں تک' : language === 'AR' ? 'إلى' : 'To'}
+                  </span>
                   <span className="text-lg font-black text-[#071A3D]">{selectedFlight.to.city} ({selectedFlight.to.code})</span>
                   <p className="text-[11px] text-gray-500">{selectedFlight.arrivalTime} • Arrival</p>
                 </div>
@@ -504,7 +582,7 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
                   ||||| | |||| |||||| || |||||||| | |||| ||||| ||| |||||| | |||
                 </div>
                 <div className="text-[11px] font-bold text-gray-600">
-                  Electronic Ticket • IATA Authorized
+                  {language === 'UR' ? 'الیکٹرانک ای-ٹکٹ • ایاٹا منظور شدہ' : language === 'AR' ? 'تذكرة إلكترونية رسمية • معتمدة من إياتا' : 'Electronic Ticket • IATA Authorized'}
                 </div>
               </div>
             </div>
@@ -513,10 +591,10 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <button
                 onClick={() => window.print()}
-                className="px-5 py-2.5 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 text-xs font-bold text-[#071A3D] flex items-center gap-2 shadow-xs transition-colors"
+                className="px-5 py-2.5 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 text-xs font-bold text-[#071A3D] flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
               >
                 <Printer className="w-4 h-4" />
-                <span>Print Ticket</span>
+                <span>{language === 'UR' ? 'ٹکٹ پرنٹ کریں' : language === 'AR' ? 'طباعة التذكرة' : 'Print Ticket'}</span>
               </button>
               <a
                 href={`https://wa.me/966502674930?text=${encodeURIComponent(
@@ -524,16 +602,16 @@ export const FlightSearchResultsModal: React.FC<FlightSearchResultsModalProps> =
                 )}`}
                 target="_blank"
                 rel="noreferrer"
-                className="px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-bold flex items-center gap-2 shadow-md shadow-[#25D366]/20 transition-all"
+                className="px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-bold flex items-center gap-2 shadow-md shadow-[#25D366]/20 transition-all cursor-pointer"
               >
                 <MessageSquare className="w-4 h-4 fill-current" />
-                <span>Receive via WhatsApp</span>
+                <span>{language === 'UR' ? 'واٹس ایپ پر حاصل کریں' : language === 'AR' ? 'استلام عبر الواتساب' : 'Receive via WhatsApp'}</span>
               </a>
               <button
                 onClick={onClose}
-                className="px-6 py-2.5 rounded-xl bg-[#071A3D] hover:bg-[#0D2C63] text-xs font-bold text-white shadow-xs transition-colors"
+                className="px-6 py-2.5 rounded-xl bg-[#071A3D] hover:bg-[#0D2C63] text-xs font-bold text-white shadow-xs transition-colors cursor-pointer"
               >
-                Done &amp; Return to Site
+                {language === 'UR' ? 'مکمل ہوا اور واپس جائیں' : language === 'AR' ? 'تم والعودة للموقع' : 'Done & Return to Site'}
               </button>
             </div>
           </div>

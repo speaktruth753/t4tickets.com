@@ -13,6 +13,8 @@ import { CurrencyCode, LanguageCode } from '../types';
 import { T4Logo, LogoColorTheme } from './T4Logo';
 import { WhatsAppIcon } from './WhatsAppIcon';
 import { HadithTickerBanner } from './HadithTickerBanner';
+import { LanguageSelector } from './LanguageSelector';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HeaderProps {
   currentCurrency?: CurrencyCode;
@@ -33,6 +35,8 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t, language, isRTL } = useLanguage();
+  const fontClass = language === 'UR' ? 'font-nastaliq' : language === 'AR' ? 'font-arabic' : 'font-sans';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,12 +47,12 @@ export const Header: React.FC<HeaderProps> = ({
   }, []);
 
   const navItems = [
-    { id: 'hero-section', label: 'Flights', icon: Plane },
-    { id: 'special-offers-countdown', label: 'Flash Offers', icon: Flame, badge: 'HOT' },
-    { id: 'umrah-section', label: 'Umrah Packages', icon: MoonStar, badge: 'VIP' },
-    { id: 'services-section', label: 'Visas & Medical', icon: FileCheck2 },
-    { id: 'deals-section', label: 'Top Deals', icon: Sparkles },
-    { id: 'faq-section', label: 'Support & FAQ', icon: HelpCircle },
+    { id: 'hero-section', label: t.navFlights, icon: Plane },
+    { id: 'special-offers-countdown', label: t.navFlashOffers, icon: Flame, badge: 'HOT' },
+    { id: 'umrah-section', label: t.navUmrah, icon: MoonStar, badge: 'VIP' },
+    { id: 'services-section', label: t.navVisasMedical, icon: FileCheck2 },
+    { id: 'deals-section', label: t.navTopDeals, icon: Sparkles },
+    { id: 'faq-section', label: t.navSupportFaq, icon: HelpCircle },
   ];
 
   return (
@@ -61,32 +65,26 @@ export const Header: React.FC<HeaderProps> = ({
             : 'bg-[#071A3D] border-b border-white/10'
         }`}
       >
-        {/* Animated Islamic Hadith & Hisn al-Muslim Ticker (1,000 Ahadith in Nastaliq) */}
+        {/* Continuous Stream Hadith Ribbon */}
         <HadithTickerBanner />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3">
-          <div className="flex items-center justify-between">
-            {/* Left: Brand Identity with 3D Rendered Logo */}
+        {/* Clean, High-Speed Navigation Bar */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 sm:h-18">
+            {/* Left: T4 TICKETS Logo & Brand Emblem */}
             <div
-              id="brand-logo"
-              className="flex items-center gap-3 cursor-pointer group select-none"
+              id="header-brand-container"
+              className="flex items-center gap-3 cursor-pointer group select-none shrink-0"
               onClick={() => onNavigate('hero-section')}
             >
-              <div
-                id="header-t4tickets-logo-container"
-                className="flex items-center justify-center shrink-0 transition-transform group-hover:scale-105"
-                title="T4 TICKETS Official 3D Logo"
-              >
-                <T4Logo
-                  id="header-t4tickets-logo"
-                  size="responsive"
-                  colorTheme={brandColor}
-                  alt="T4 TICKETS Official Logo"
-                  showStatusIndicator={false}
-                />
-              </div>
-
-              <div className="flex flex-col justify-center">
+              <T4Logo
+                id="header-t4tickets-logo"
+                size="md"
+                colorTheme={brandColor}
+                alt="T4 TICKETS Official Emblem"
+                showStatusIndicator={true}
+              />
+              <div className="flex flex-col">
                 <span className="text-xl sm:text-2xl font-black tracking-tight text-white font-heading leading-tight">
                   T4{' '}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFE082] via-[#F5D061] to-[#DFB15B]">
@@ -105,13 +103,13 @@ export const Header: React.FC<HeaderProps> = ({
                 const Icon = item.icon;
                 return (
                   <button
-                    key={item.label}
-                    id={`nav-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
+                    key={item.id}
+                    id={`nav-${item.id}`}
                     onClick={() => onNavigate(item.id)}
                     className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold text-gray-200 hover:text-white hover:bg-white/10 transition-colors whitespace-nowrap"
                   >
                     <Icon className="w-4 h-4 text-[#F5D061]" />
-                    <span>{item.label}</span>
+                    <span className={fontClass}>{item.label}</span>
                     {item.badge && (
                       <span className="text-[10px] font-bold px-1.5 py-0.2 bg-[#E53935] text-white rounded-full">
                         {item.badge}
@@ -122,18 +120,24 @@ export const Header: React.FC<HeaderProps> = ({
               })}
             </nav>
 
-            {/* Right: ONLY DIRECT WHATSAPP CONTACT BUTTON */}
+            {/* Right: Almosafer-Style Language Selector + Direct WhatsApp Contact */}
             <div className="flex items-center gap-2 sm:gap-3">
+              {/* Almosafer Multilingual Switcher (Arabic, Urdu, English) */}
+              <LanguageSelector variant="header" />
+
+              {/* Direct WhatsApp Contact Button */}
               <a
                 id="header-direct-whatsapp-btn"
                 href="https://wa.me/966502674930?text=Assalam%20u%20Alaikum%20Muhammad%20Aamir%20Aziz%2C%20I%20want%20to%20book%20a%20ticket%20or%20visa"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm shadow-md shadow-[#25D366]/30 hover:scale-105 active:scale-95 transition-all duration-150 group"
+                className="flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white px-3 sm:px-4 py-2 sm:py-2 rounded-full font-bold text-xs sm:text-sm shadow-md shadow-[#25D366]/30 hover:scale-105 active:scale-95 transition-all duration-150 group"
                 title="Direct WhatsApp Contact - Muhammad Aamir Aziz (+966 50 267 4930)"
               >
                 <WhatsAppIcon className="w-4 sm:w-5 h-4 sm:h-5 fill-current shrink-0" />
-                <span className="hidden sm:inline font-bold">WhatsApp Contact</span>
+                <span className={`hidden sm:inline font-bold ${fontClass}`}>
+                  {t.navWhatsAppContact}
+                </span>
                 <span className="sm:hidden font-bold">WhatsApp</span>
               </a>
 
@@ -159,7 +163,9 @@ export const Header: React.FC<HeaderProps> = ({
           onClick={() => setMobileMenuOpen(false)}
         >
           <div
-            className="fixed top-0 right-0 bottom-0 w-4/5 max-w-sm bg-[#071A3D] text-white p-6 shadow-2xl flex flex-col justify-between overflow-y-auto"
+            className={`fixed top-0 bottom-0 w-4/5 max-w-sm bg-[#071A3D] text-white p-6 shadow-2xl flex flex-col justify-between overflow-y-auto ${
+              isRTL ? 'left-0' : 'right-0'
+            }`}
             onClick={(e) => e.stopPropagation()}
           >
             <div>
@@ -197,8 +203,13 @@ export const Header: React.FC<HeaderProps> = ({
                 </button>
               </div>
 
+              {/* Language Selection in Mobile Drawer */}
+              <div className="mt-4">
+                <LanguageSelector variant="mobile" />
+              </div>
+
               {/* Direct WhatsApp Contact Button Inside Mobile Menu */}
-              <div className="mt-5">
+              <div className="mt-4">
                 <a
                   href="https://wa.me/966502674930?text=Assalam%20u%20Alaikum%20Muhammad%20Aamir%20Aziz%2C%20I%20want%20to%20book%20a%20ticket"
                   target="_blank"
@@ -207,7 +218,7 @@ export const Header: React.FC<HeaderProps> = ({
                   className="w-full flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#20bd5a] text-white py-3 px-4 rounded-xl font-bold text-sm shadow-lg shadow-[#25D366]/30 transition-transform active:scale-95"
                 >
                   <WhatsAppIcon className="w-5 h-5 fill-current" />
-                  <span>Direct WhatsApp Contact</span>
+                  <span className={fontClass}>{t.navWhatsAppContact}</span>
                 </a>
               </div>
 
@@ -217,16 +228,16 @@ export const Header: React.FC<HeaderProps> = ({
                   const Icon = item.icon;
                   return (
                     <button
-                      key={item.label}
+                      key={item.id}
                       onClick={() => {
                         onNavigate(item.id);
                         setMobileMenuOpen(false);
                       }}
-                      className="flex items-center justify-between px-3.5 py-3 rounded-xl hover:bg-white/10 text-sm font-semibold text-gray-200 hover:text-white transition-colors text-left"
+                      className="flex items-center justify-between px-3.5 py-3 rounded-xl hover:bg-white/10 text-sm font-semibold text-gray-200 hover:text-white transition-colors text-start"
                     >
                       <div className="flex items-center gap-3">
                         <Icon className="w-4 h-4 text-[#F5D061]" />
-                        <span>{item.label}</span>
+                        <span className={fontClass}>{item.label}</span>
                       </div>
                       {item.badge && (
                         <span className="text-[10px] font-bold px-2 py-0.5 bg-[#E53935] text-white rounded-full">

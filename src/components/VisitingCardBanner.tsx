@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Maximize2, Download, Share2, Check, MessageSquare, Phone, Mail, X } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export const VisitingCardBanner: React.FC = () => {
+  const { language } = useLanguage();
+  const fontClass = language === 'UR' ? 'font-nastaliq' : language === 'AR' ? 'font-arabic' : 'font-sans';
   const [copied, setCopied] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
 
@@ -120,14 +123,20 @@ export const VisitingCardBanner: React.FC = () => {
             </div>
 
             {/* Bottom Contact & Information Strip */}
-            <div className="bg-[#051433] px-4 py-3 border-t border-[#D4AF37]/30 flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div className={`bg-[#051433] px-4 py-3 border-t border-[#D4AF37]/30 flex flex-wrap items-center justify-between gap-3 text-xs ${fontClass}`}>
               <div className="flex items-center gap-2 text-white">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#25D366] animate-pulse" />
-                <span className="font-extrabold text-[#F7D070] text-sm">محمد عامر عزیز</span>
+                <span className={`font-extrabold text-[#F7D070] text-sm ${fontClass}`}>محمد عامر عزیز</span>
                 <span className="text-gray-400">|</span>
                 <span className="font-bold text-gray-200">Muhammad Aamir Aziz</span>
                 <span className="text-gray-400 hidden sm:inline">|</span>
-                <span className="text-gray-300 hidden sm:inline">Chief Executive • T4 Tickets &amp; Travels</span>
+                <span className={`text-gray-300 hidden sm:inline ${fontClass}`}>
+                  {language === 'UR'
+                    ? 'چیف ایگزیکٹو • ٹی فور ٹکٹس اینڈ ٹریولز'
+                    : language === 'AR'
+                    ? 'المدير العام • تي فور للتذاكر والسياحة'
+                    : 'Chief Executive • T4 Tickets & Travels'}
+                </span>
               </div>
 
               <div className="flex items-center flex-wrap gap-2">
@@ -163,11 +172,15 @@ export const VisitingCardBanner: React.FC = () => {
 
                 <button
                   onClick={handleCopyNumber}
-                  className="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-gray-300 hover:text-white font-semibold flex items-center gap-1 border border-white/10 transition-colors text-xs"
+                  className={`px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-gray-300 hover:text-white font-semibold flex items-center gap-1 border border-white/10 transition-colors text-xs cursor-pointer ${fontClass}`}
                   title="Copy Primary Phone Number (+966 50 267 4930)"
                 >
                   {copied ? <Check className="w-3.5 h-3.5 text-[#25D366]" /> : null}
-                  <span>{copied ? 'Copied!' : 'Copy KSA (+966)'}</span>
+                  <span>
+                    {copied
+                      ? (language === 'UR' ? 'کاپی ہوگیا!' : language === 'AR' ? 'تم النسخ!' : 'Copied!')
+                      : (language === 'UR' ? 'نمبر کاپی کریں (+966)' : language === 'AR' ? 'نسخ الرقم (+966)' : 'Copy KSA (+966)')}
+                  </span>
                 </button>
               </div>
             </div>

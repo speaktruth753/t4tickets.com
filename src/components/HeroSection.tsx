@@ -20,6 +20,7 @@ import { Airport, CabinClass, FlightSearchQuery, TripType } from '../types';
 import { IATA_CODES } from '../data/iataCodes';
 import { formatCabinClassName, formatPassengerCount } from '../utils/formatters';
 import { WhatsAppIcon } from './WhatsAppIcon';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HeroSectionProps {
   onSearchFlights: (query: FlightSearchQuery) => void;
@@ -27,6 +28,8 @@ interface HeroSectionProps {
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => {
+  const { t, language, isRTL } = useLanguage();
+  const fontClass = language === 'UR' ? 'font-nastaliq' : language === 'AR' ? 'font-arabic' : 'font-sans';
   const [tripType, setTripType] = useState<TripType>('roundTrip');
   const [fromAirport, setFromAirport] = useState<Airport>(
     IATA_CODES.find((a) => a.code === 'RUH') || IATA_CODES[0]
@@ -274,14 +277,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
         <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-white text-xs font-semibold mb-3 shadow-xs">
             <span className="w-2 h-2 rounded-full bg-[#16A34A] animate-pulse" />
-            <span>Authorized IATA Agency • Chief Executive: محمد عامر عزیز</span>
+            <span className={fontClass}>{t.heroBadge}</span>
           </div>
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight font-heading">
-            Cheapest Airline Tickets, <br className="hidden sm:inline" />
-            <span className="text-[#F5D061]">VIP Umrah</span> &amp; Visit Visas
+          <h1 className={`text-2xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight font-heading ${fontClass}`}>
+            {t.heroTitleLine1} <br className="hidden sm:inline" />
+            <span className="text-[#F5D061]">{t.heroTitleHighlight}</span> {t.heroTitleLine2}
           </h1>
-          <p className="mt-2.5 text-xs sm:text-sm text-gray-300 font-normal leading-relaxed max-w-xl mx-auto">
-            Compare discounted fares across PIA, Saudia, Emirates, Flynas &amp; AirSial with direct 24/7 WhatsApp e-ticket issuance.
+          <p className={`mt-2.5 text-xs sm:text-sm text-gray-300 font-normal leading-relaxed max-w-xl mx-auto ${fontClass}`}>
+            {t.heroSubtitle}
           </p>
         </div>
 
@@ -292,7 +295,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
             <div className="flex items-center bg-gray-100 p-1 rounded-xl">
               {(['roundTrip', 'oneWay', 'multiCity'] as TripType[]).map((type) => {
                 const label =
-                  type === 'roundTrip' ? 'Round Trip' : type === 'oneWay' ? 'One Way' : 'Multi City';
+                  type === 'roundTrip' ? t.tripRoundTrip : type === 'oneWay' ? t.tripOneWay : t.tripMultiCity;
                 return (
                   <button
                     key={type}
@@ -302,7 +305,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
                       tripType === type
                         ? 'bg-[#071A3D] text-white shadow-xs'
                         : 'text-gray-600 hover:text-[#071A3D]'
-                    }`}
+                    } ${fontClass}`}
                   >
                     {label}
                   </button>
@@ -323,23 +326,53 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
 
           {/* ⚡ Instant Fast Routes Bar with Live Price Tags */}
           <div className="mt-3.5 pt-2 flex items-center gap-2 overflow-x-auto pb-1.5 scrollbar-none">
-            <div className="flex items-center gap-1 text-[11px] font-bold text-[#E53935] shrink-0 bg-[#E53935]/10 px-2.5 py-1 rounded-full">
+            <div className={`flex items-center gap-1 text-[11px] font-bold text-[#E53935] shrink-0 bg-[#E53935]/10 px-2.5 py-1 rounded-full ${fontClass}`}>
               <Sparkles className="w-3 h-3" />
-              <span>⚡ Fast Routes:</span>
+              <span>{language === 'UR' ? '⚡ مقبول ترین روٹس:' : language === 'AR' ? '⚡ المسارات الأكثر طلباً:' : '⚡ Fast Routes:'}</span>
             </div>
             {[
-              { from: 'RUH', to: 'DXB', label: 'Riyadh ⇄ Dubai', price: '189 SAR' },
-              { from: 'JED', to: 'LHE', label: 'Jeddah ⇄ Lahore', price: '280 SAR' },
-              { from: 'RUH', to: 'ISB', label: 'Riyadh ⇄ Islamabad', price: '310 SAR' },
-              { from: 'JED', to: 'CAI', label: 'Jeddah ⇄ Cairo', price: '195 SAR' },
-              { from: 'DMM', to: 'KHI', label: 'Dammam ⇄ Karachi', price: '240 SAR' },
-              { from: 'MED', to: 'IST', label: 'Madinah ⇄ Istanbul', price: '320 SAR' },
+              {
+                from: 'RUH',
+                to: 'DXB',
+                label: language === 'UR' ? 'ریاض ⇄ دبئی' : language === 'AR' ? 'الرياض ⇄ دبي' : 'Riyadh ⇄ Dubai',
+                price: language === 'UR' ? '189 ریال' : language === 'AR' ? '189 ريال' : '189 SAR'
+              },
+              {
+                from: 'JED',
+                to: 'LHE',
+                label: language === 'UR' ? 'جدہ ⇄ لاہور' : language === 'AR' ? 'جدة ⇄ لاهور' : 'Jeddah ⇄ Lahore',
+                price: language === 'UR' ? '280 ریال' : language === 'AR' ? '280 ريال' : '280 SAR'
+              },
+              {
+                from: 'RUH',
+                to: 'ISB',
+                label: language === 'UR' ? 'ریاض ⇄ اسلام آباد' : language === 'AR' ? 'الرياض ⇄ إسلام آباد' : 'Riyadh ⇄ Islamabad',
+                price: language === 'UR' ? '310 ریال' : language === 'AR' ? '310 ريال' : '310 SAR'
+              },
+              {
+                from: 'JED',
+                to: 'CAI',
+                label: language === 'UR' ? 'جدہ ⇄ قاہرہ' : language === 'AR' ? 'جدة ⇄ القاهرة' : 'Jeddah ⇄ Cairo',
+                price: language === 'UR' ? '195 ریال' : language === 'AR' ? '195 ريال' : '195 SAR'
+              },
+              {
+                from: 'DMM',
+                to: 'KHI',
+                label: language === 'UR' ? 'دمام ⇄ کراچی' : language === 'AR' ? 'الدمام ⇄ كراتشي' : 'Dammam ⇄ Karachi',
+                price: language === 'UR' ? '240 ریال' : language === 'AR' ? '240 ريال' : '240 SAR'
+              },
+              {
+                from: 'MED',
+                to: 'IST',
+                label: language === 'UR' ? 'مدینہ ⇄ استنبول' : language === 'AR' ? 'المدينة ⇄ إسطنبول' : 'Madinah ⇄ Istanbul',
+                price: language === 'UR' ? '320 ریال' : language === 'AR' ? '320 ريال' : '320 SAR'
+              },
             ].map((route) => (
               <button
                 key={`${route.from}-${route.to}`}
                 type="button"
                 onClick={() => handleQuickRouteSelect(route.from, route.to)}
-                className="shrink-0 px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-50 hover:bg-[#071A3D] hover:text-white text-gray-700 transition-all border border-gray-200 hover:border-[#071A3D] flex items-center gap-1.5 shadow-2xs group"
+                className={`shrink-0 px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-50 hover:bg-[#071A3D] hover:text-white text-gray-700 transition-all border border-gray-200 hover:border-[#071A3D] flex items-center gap-1.5 shadow-2xs group cursor-pointer ${fontClass}`}
                 title={`Instantly search flights: ${route.label}`}
               >
                 <span>{route.label}</span>
@@ -354,7 +387,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
               {/* Flying From */}
               <div ref={fromPickerRef} className="md:col-span-3 relative">
                 <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1">
-                  Flying From
+                  <span className={isRTL ? 'font-urdu' : ''}>{t.labelFrom}</span>
                 </label>
                 <div
                   id="search-from-field"
@@ -498,7 +531,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
               {/* Flying To */}
               <div ref={toPickerRef} className="md:col-span-3 relative">
                 <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1">
-                  Flying To
+                  <span className={isRTL ? 'font-urdu' : ''}>{t.labelTo}</span>
                 </label>
                 <div
                   id="search-to-field"
@@ -630,7 +663,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
               <div className="md:col-span-3 grid grid-cols-2 gap-2">
                 <div>
                   <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1">
-                    Departure
+                    <span className={isRTL ? 'font-urdu' : ''}>{t.labelDeparture}</span>
                   </label>
                   <div className="flex items-center p-3 rounded-xl bg-gray-50 border border-gray-200 focus-within:border-[#071A3D]">
                     <Calendar className="w-4 h-4 text-gray-400 mr-2 shrink-0" />
@@ -644,7 +677,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
                 </div>
                 <div>
                   <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1">
-                    Return
+                    <span className={isRTL ? 'font-urdu' : ''}>{t.labelReturn}</span>
                   </label>
                   <div
                     className={`flex items-center p-3 rounded-xl border ${
@@ -668,7 +701,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
               {/* Travelers & Cabin Class */}
               <div ref={travelersPickerRef} className="md:col-span-3 relative">
                 <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1">
-                  Travelers & Cabin
+                  <span className={isRTL ? 'font-urdu' : ''}>{t.labelTravelersCabin}</span>
                 </label>
                 <div
                   id="search-passengers-field"
@@ -802,7 +835,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
                     onChange={(e) => setDirectOnly(e.target.checked)}
                     className="w-4 h-4 rounded text-[#E53935] focus:ring-[#E53935] accent-[#E53935]"
                   />
-                  <span>Direct Flights Only</span>
+                  <span className={isRTL ? 'font-urdu' : ''}>{t.directFlightsOnly}</span>
                 </label>
 
                 <label className="flex items-center gap-2 text-xs font-medium text-gray-700 cursor-pointer select-none">
@@ -812,7 +845,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
                     onChange={(e) => setFlexibleDates(e.target.checked)}
                     className="w-4 h-4 rounded text-[#E53935] focus:ring-[#E53935] accent-[#E53935]"
                   />
-                  <span>Flexible Dates (±3 Days)</span>
+                  <span className={isRTL ? 'font-urdu' : ''}>{t.flexibleDates}</span>
                 </label>
               </div>
 
@@ -820,20 +853,26 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
               <button
                 type="submit"
                 id="search-flights-cta"
-                className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2.5 shadow-lg shadow-[#25D366]/35 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 group"
+                className={`w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2.5 shadow-lg shadow-[#25D366]/35 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 group ${isRTL ? 'font-urdu' : ''}`}
                 title="Send flight dates and route directly to WhatsApp (+966 50 267 4930)"
               >
-                <WhatsAppIcon className="w-5 h-5 fill-current" />
-                <span>Search &amp; Send to WhatsApp</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <WhatsAppIcon className="w-5 h-5 fill-current shrink-0" />
+                <span>{t.btnSearchFlights}</span>
+                <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
               </button>
             </div>
 
             {/* Helper note for direct WhatsApp inquiry */}
-            <div dir="rtl" className="mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-center gap-2 text-xs text-gray-600 font-medium text-center">
+            <div dir={isRTL ? 'rtl' : 'ltr'} className={`mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-center gap-2 text-xs text-gray-600 font-medium text-center ${fontClass}`}>
               <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse shrink-0" />
               <p className="leading-relaxed">
-                <span>آپ کی منتخب تاریخیں اور روٹ فوری طور پر واٹس ایپ پر محمد عامر عزیز صاحب</span>{' '}
+                <span>
+                  {language === 'UR'
+                    ? 'آپ کی منتخب تاریخیں اور روٹ فوری طور پر واٹس ایپ پر محمد عامر عزیز صاحب'
+                    : language === 'AR'
+                    ? 'سيتم إرسال مسار وتواريخ رحلتك مباشرة عبر الواتساب إلى المدير العام محمد عامر عزيز'
+                    : 'Your selected flight dates & route will be sent directly via WhatsApp to Muhammad Aamir Aziz'}
+                </span>{' '}
                 <a
                   href="https://wa.me/966502674930"
                   target="_blank"
@@ -848,21 +887,27 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
                     {'\u200E'}(+966 50 267 4930){'\u200E'}
                   </bdi>
                 </a>{' '}
-                <span>کو موصول ہو جائیں گے۔</span>
+                <span>
+                  {language === 'UR' ? 'کو موصول ہو جائیں گے۔' : language === 'AR' ? 'لتأكيد الحجز فوراً.' : 'for instant ticket issuance.'}
+                </span>
               </p>
             </div>
           </form>
         </div>
 
         {/* Trust Indicators Bar Below Search */}
-        <div className="mt-8 max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 text-white/90">
+        <div className={`mt-8 max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 text-white/90 ${fontClass}`}>
           <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 border border-white/10">
             <div className="w-8 h-8 rounded-lg bg-[#E53935]/20 flex items-center justify-center shrink-0">
               <Award className="w-4 h-4 text-[#E53935]" />
             </div>
             <div>
-              <div className="text-xs font-bold text-white">IATA Certified</div>
-              <div className="text-[10px] text-gray-300">Authorized Agency</div>
+              <div className="text-xs font-bold text-white">
+                {language === 'UR' ? 'آئی اے ٹی اے سند یافتہ' : language === 'AR' ? 'معتمد من إياتا (IATA)' : 'IATA Certified'}
+              </div>
+              <div className="text-[10px] text-gray-300">
+                {language === 'UR' ? 'مجاز ٹریول ایجنسی' : language === 'AR' ? 'وكالة سفر معتمدة' : 'Authorized Agency'}
+              </div>
             </div>
           </div>
 
@@ -871,8 +916,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
               <CreditCard className="w-4 h-4 text-[#16A34A]" />
             </div>
             <div>
-              <div className="text-xs font-bold text-white">0% Hidden Fees</div>
-              <div className="text-[10px] text-gray-300">Direct Airline Pricing</div>
+              <div className="text-xs font-bold text-white">
+                {language === 'UR' ? '0% پوشیدہ چارجز' : language === 'AR' ? 'بدون رسوم خفية 0%' : '0% Hidden Fees'}
+              </div>
+              <div className="text-[10px] text-gray-300">
+                {language === 'UR' ? 'ایئرلائن کے اصل ریٹس' : language === 'AR' ? 'أسعار الطيران المباشرة' : 'Direct Airline Pricing'}
+              </div>
             </div>
           </div>
 
@@ -881,7 +930,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
               <Headphones className="w-4 h-4 text-blue-400" />
             </div>
             <div>
-              <div className="text-xs font-bold text-white">24/7 Desk</div>
+              <div className="text-xs font-bold text-white">
+                {language === 'UR' ? '24/7 کسٹمر ڈیسک' : language === 'AR' ? 'خدمة عملاء 24/7' : '24/7 Desk'}
+              </div>
               <div dir="ltr" className="text-[10px] text-gray-300 font-mono">+966 50 267 4930</div>
             </div>
           </div>
@@ -891,8 +942,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchFlights }) => 
               <ShieldCheck className="w-4 h-4 text-amber-400" />
             </div>
             <div>
-              <div className="text-xs font-bold text-white">Fast E-Tickets</div>
-              <div className="text-[10px] text-gray-300">WhatsApp Dispatch</div>
+              <div className="text-xs font-bold text-white">
+                {language === 'UR' ? 'فوری ای ٹکٹ' : language === 'AR' ? 'تذاكر إلكترونية فورية' : 'Fast E-Tickets'}
+              </div>
+              <div className="text-[10px] text-gray-300">
+                {language === 'UR' ? 'واٹس ایپ پر ترسیل' : language === 'AR' ? 'إرسال مباشر عبر واتساب' : 'WhatsApp Dispatch'}
+              </div>
             </div>
           </div>
         </div>

@@ -7,7 +7,7 @@ export interface CurrencyConfig {
   name: string;
 }
 
-export type LanguageCode = 'EN' | 'AR';
+export type LanguageCode = 'EN' | 'AR' | 'UR';
 
 export type TripType = 'roundTrip' | 'oneWay' | 'multiCity';
 
